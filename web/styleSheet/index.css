@@ -1,24 +1,53 @@
-.header {
+body {
+    padding:8px;
+}
+
+#vertical-bar {
+    max-width: 300px;
+    margin: 1em auto auto 3em;
     background-color: gray;
     border-left: 6px solid rgb(60, 60, 60);
-    padding-top: 0.5em;
-    height: 3vw;
-    width: 7vw;
+}
+
+#content-area {
+    margin:auto;
+    background-color:wheat;
 }
 
 a:link, a:visited {
-    font-size: 9vm;
+    font-size: 4vw;
     text-decoration: none;
     color: white;
-    padding: 0.5em;
-    text-align: center;
+    padding: 1em;
     width: inherit;
-    margin: 3em 0.25em;
-    vertical-align: center;
+    margin: 3em 0.5em;
+    display: inline-block;
 }
 
 a:hover, a:active {
     color:forestgreen;
     background-color: blue;
     border: 0.125em solid black;
+}
+
+table{
+    width: 70%;
+    border-collapse:collapse;
+}
+
+tr:hover {
+    background-color:burlywood;
+}
+
+tr:nth-child(even) {
+    background-color:navajowhite;
+}
+
+th, td {
+    padding:8px 16px;
+}
+
+th {
+    background-color:greenyellow;
+    color:white;
 }

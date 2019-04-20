@@ -8,13 +8,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>netChat</title>
-  <link rel="stylesheet" type="text/css" href="styleSheet/index.css"/>
+    <title>netChat</title>
+    <link rel="stylesheet" type="text/css" href="styleSheet/index.css"/>
 </head>
 <body>
-<div class="header">
-  <a href="localhost:8080/netChat">netChat</a>
+<div id="vertical-bar">
+    <a href="localhost:8080/netChat">netChat</a>
 </div>
-<p class="textHeader">groupName</p>
+<div id="content-area">
+    <table>
+        <tr>
+            <th>group name</th>
+            <th>vitality</th>
+            <th>last active</th>
+        </tr>
+        <tr>
+            <td class="table-description">redstone craftsman association</td>
+            <td class="parts">100</td>
+            <td class="parts">2019/4/20</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
