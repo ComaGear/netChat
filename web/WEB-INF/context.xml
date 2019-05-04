@@ -1,0 +1,4 @@
+<Context path="/netChat">
+    <Loader className="org.apache.catalina.loader.WebappLoader"/>
+    <lib>mybatis-3.4.1</lib>
+</Context>

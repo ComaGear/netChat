@@ -12,9 +12,13 @@
     <link rel="stylesheet" type="text/css" href="styleSheet/index.css"/>
 </head>
 <body>
-<div id="vertical-bar">
-    <a href="localhost:8080/netChat">netChat</a>
-</div>
+    <ul id="menu">
+        <li><a href="#home"><img src="img/RCA.png"></a></li>
+        <li><a class="active" href="localhost:8080/netChat">netChat</a></li>
+        <li><a href="#function">function</a></li>
+        <li><a href="#about">about us</a></li>
+    </ul>
+
 <div id="content-area">
     <table>
         <tr>
@@ -29,5 +33,6 @@
         </tr>
     </table>
 </div>
+
 </body>
 </html>

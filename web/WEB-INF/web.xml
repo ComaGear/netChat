@@ -123,6 +123,11 @@
       </description>
     </servlet>
 
+    <servlet>
+        <servlet-name>Chat</servlet-name>
+        <servlet-class>com.tomcat.netChat.servlet.Chat</servlet-class>
+    </servlet>
+
 
     <!-- Define mappings that are used by the servlet container to
          translate a particular request URI (context-relative) to a
@@ -150,6 +155,11 @@
     <servlet-mapping>
       <servlet-name>graph</servlet-name>
       <url-pattern>/graph</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Chat</servlet-name>
+        <url-pattern>/Chat</url-pattern>
     </servlet-mapping>
 
 

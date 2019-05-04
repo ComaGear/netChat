@@ -33,3 +33,4 @@ hs_err_pid*
 # configure files
 build.properties
 WEB_INF/
+mybatis-config.xml
