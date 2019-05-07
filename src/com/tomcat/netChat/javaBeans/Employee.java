@@ -1,4 +1,4 @@
-package com.tomcat.netChat.servlet.javaBeans;
+package com.tomcat.netChat.javaBeans;
 
 
 public class Employee {

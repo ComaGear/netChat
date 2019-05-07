@@ -1,6 +1,6 @@
-package com.tomcat.netChat.servlet.dao;
+package com.tomcat.netChat.dao;
 
-import com.tomcat.netChat.servlet.javaBeans.Employee;
+import com.tomcat.netChat.javaBeans.Employee;
 
 public interface EmployeeMapper {
     public Employee getEmpById(int i);
