@@ -1,4 +1,4 @@
-package com.tomcat.netChat.dao;
+package com.tomcat.netChat.repository.dao;
 
 import com.tomcat.netChat.javaBeans.Employee;
 

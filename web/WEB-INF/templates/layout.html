@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thrmeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Genaral Layout Templates</title>
+    <link rel="stylesheet" type="text/css" href="css/general-layout.css"/>
+</head>
+<body>
+
+    <!--<div th:fragment="header" .class="header">-->
+        <!--<img id="img-header" src="C:/Users/user/IntelliJIDEAProjects/NetChat/web/images/rca.png"/>-->
+        <!--<p class="header-description">Redstone Craftsman Association</p>-->
+    <!--</div>-->
+
+    <ul class="top-panel fixed-panel" th:fragment="top-panel">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#home">List</a></li>
+        <li><a href="#home">Application</a></li>
+        <li class="dropdown">
+            <a href="#home" class="dropdown-button">About Us</a>
+            <div class="dropdown-content">
+                <a href="#About-link">Team</a>
+                <a href="#About-link">Production</a>
+            </div>
+        </li>
+    </ul>
+
+    <div class="left-side-panel fixed-panel" th:fragment="left-panel">
+        <h3>some text</h3>
+    </div>
+
+    <div class="content-area" th:class="content-area" th:include="${content}">
+
+    </div>
+</body>
+</html>

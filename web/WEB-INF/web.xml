@@ -125,8 +125,23 @@
 
     <servlet>
         <servlet-name>Chat</servlet-name>
-        <servlet-class>com.tomcat.netChat.servlet.Chat</servlet-class>
+        <servlet-class>com.tomcat.netChat.web.servlet.Chat</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>ROOT</servlet-name>
+        <servlet-class>com.tomcat.netChat.web.servlet.ROOT</servlet-class>
+    </servlet>
+
+    <!--<filter>-->
+        <!--<filter-name>NetFilter</filter-name>-->
+        <!--<filter-class>com.tomcat.netChat.web.filter.NetChatInitialFilter</filter-class>-->
+    <!--</filter>-->
+
+    <!--<filter-mapping>-->
+        <!--<filter-name>NetFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
 
     <!-- Define mappings that are used by the servlet container to
@@ -160,6 +175,11 @@
     <servlet-mapping>
         <servlet-name>Chat</servlet-name>
         <url-pattern>/Chat</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ROOT</servlet-name>
+        <url-pattern>/ROOT</url-pattern>
     </servlet-mapping>
 
 

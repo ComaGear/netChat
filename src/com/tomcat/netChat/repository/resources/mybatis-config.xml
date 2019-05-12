@@ -20,6 +20,6 @@
     </environments>
 
     <mappers>
-        <mapper class="com.tomcat.netChat.dao.EmployeeMapper"/>
+        <mapper class="com.tomcat.netChat.repository.dao.EmployeeMapper"/>
     </mappers>
 </configuration>
