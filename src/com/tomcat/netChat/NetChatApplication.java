@@ -11,6 +11,7 @@ public class NetChatApplication {
     private TemplateEngine templateEngine;
 
     public static final String TEMPLATE_ENGINE = "TemplateEngine";
+    public static final String REPOSITORY_RESOURCE = "com/tomcat/netChat/repository/resources/mybatis-config.xml";
 
     public NetChatApplication(final ServletContext servletContext){
         super();

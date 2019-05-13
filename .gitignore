@@ -5,6 +5,7 @@
 build/
 .idea/
 *.iml
+out/
 
 # Log file
 *.log

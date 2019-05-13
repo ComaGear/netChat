@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--public User getUserById(Integer id);-->
+<!--public boolean insertUser(User user);-->
+<!--public boolean deleteUserById(Integer id);-->
+<!--public boolean deleteUserById(Integer id);-->
+
+<!--private Integer id;-->
+<!--private String name;-->
+<!--private String comment;-->
+
+<mapper namespace="com.tomcat.netChat.repository.dao.UserMapper">
+
+    <select id="initializeUserTable">
+        create table user
+        (
+            id        int auto_increment not null,
+            user_name varchar(225),
+            comment   varchar(225),
+            primary key (id)
+        );
+    </select>
+
+    <select id="getUserById" resultType="com.tomcat.netChat.javaBeans.User">
+        select *
+        from user
+        where #{id}
+    </select>
+
+    <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User">
+        insert into user (user_name, comment)
+        values (#{name},
+                #{comment});
+    </insert>
+
+    <delete id="deleteUserById">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+</mapper>

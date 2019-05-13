@@ -27,7 +27,7 @@
         docs                 Static documentation files to be copied to
                              the "docs" subdirectory of your distribution.
 
-        src                  Java source code (and associated resource files)
+        src                  Java source code (and associated resources files)
                              to be compiled to the "WEB-INF/classes"
                              subdirectory of your web application.
 
@@ -77,7 +77,7 @@
 -->
 
   <property file="build.properties"/>
-  <property file="${user.home}/build.properties"/>
+    <property file="build.properties"/>
 
 
 <!-- ==================== File and Directory Names ======================== -->

@@ -133,15 +133,15 @@
         <servlet-class>com.tomcat.netChat.web.servlet.ROOT</servlet-class>
     </servlet>
 
-    <!--<filter>-->
-        <!--<filter-name>NetFilter</filter-name>-->
-        <!--<filter-class>com.tomcat.netChat.web.filter.NetChatInitialFilter</filter-class>-->
-    <!--</filter>-->
+    <filter>
+        <filter-name>NetFilter</filter-name>
+        <filter-class>com.tomcat.netChat.web.filter.NetChatInitialFilter</filter-class>
+    </filter>
 
-    <!--<filter-mapping>-->
-        <!--<filter-name>NetFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter-mapping>
+        <filter-name>NetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 
     <!-- Define mappings that are used by the servlet container to

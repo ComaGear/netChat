@@ -5,10 +5,10 @@
     <title>Employee List</title>
     <th:block th:replace="~{layout :: link}"></th:block>
 </head>
-<body >
+<body>
 
-    <th:block th:replace="~{layout :: top-panel}"></th:block>
-    <th:block th:replace="~{layout :: left-panel}"></th:block>
+<th:block th:replace="~{layout :: top-panel}" th:if="${layout.top}"></th:block>
+<th:block th:replace="~{layout :: left-panel}" th:if="${layout.left}"></th:block>
     <div th:fragment="content" class="content-area">
         <p th:text="${emp.lastName}"></p>
         <p th:text="${emp.gender} == 0 ? 'Famale' : 'Male'"></p>

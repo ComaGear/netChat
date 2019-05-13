@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--public boolean initializeGroup();-->
+<!--public boolean insertGroup(GroupChat group);-->
+<!--public GroupChat getGroupById(Integer id);-->
+<!--public List<GroupChat> getGroupByAll();-->
+<!--public boolean deleteGroupById(Integer id);-->
+
+<!--private Integer id;-->
+<!--private String groupName;-->
+<!--private String detail;-->
+<!--private Date date;-->
+<!--private User creator;-->
+
+<mapper namespace="com.tomcat.netChat.repository.dao.GroupChatMapper">
+
+    <select id="initializeGroup">
+        create table group
+        (
+            id         int auto_increment not null,
+            group_name varchar(255)       not null,
+            detail     varchar(255),
+            date       timestamp          not null,
+            creator_id int,
+            primary key (id),
+            foreign key (creator_id) references user (id)
+        );
+    </select>
+
+    <insert id="insertGroup">
+        insert into group (group_name, detail, creator_id)
+        values (#{groupName},
+                #{detail},
+                #{creator.id})
+    </insert>
+
+    <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat">
+        select *
+        from group
+        where id = #{id}
+    </select>
+
+    <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat">
+        select *
+        from group;
+    </select>
+
+    <delete id="deleteGroupById">
+        delete
+        from group
+        where id = #{id}
+    </delete>
+</mapper>
