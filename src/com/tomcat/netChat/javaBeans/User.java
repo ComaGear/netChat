@@ -35,4 +35,7 @@ public class User {
         this.name = name;
         this.comment = comment;
     }
+
+    public User() {
+    }
 }

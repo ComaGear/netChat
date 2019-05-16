@@ -1,10 +1,19 @@
 package com.tomcat.netChat;
 
+import com.tomcat.netChat.javaBeans.User;
+import com.tomcat.netChat.repository.dao.ChatMapper;
+import com.tomcat.netChat.repository.dao.GroupChatMapper;
+import com.tomcat.netChat.repository.dao.UserMapper;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
+import java.io.IOException;
 
 public class NetChatApplication {
 
@@ -26,6 +35,23 @@ public class NetChatApplication {
 
         this.templateEngine = new TemplateEngine();
         this.templateEngine.setTemplateResolver(templateResolver);
+
+        try {
+            SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
+            SqlSession openSession = factory.openSession();
+            UserMapper userMapper = openSession.getMapper(UserMapper.class);
+            GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
+            ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
+
+            userMapper.initializeUserTable();
+            groupChatMapper.initializeGroup();
+            chatMapper.initializeChat();
+
+            openSession.commit();
+            openSession.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public TemplateEngine getTemplateEngine(){

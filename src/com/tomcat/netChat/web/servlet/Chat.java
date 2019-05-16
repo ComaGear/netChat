@@ -1,13 +1,7 @@
 package com.tomcat.netChat.web.servlet;
 
 import com.tomcat.netChat.NetChatApplication;
-import com.tomcat.netChat.web.resources.LayoutInitialize;
-import com.tomcat.netChat.repository.dao.EmployeeMapper;
-import com.tomcat.netChat.javaBeans.Employee;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import com.tomcat.netChat.service.ChatService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class Chat extends HttpServlet {
 
@@ -22,32 +17,31 @@ public class Chat extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(NetChatApplication.TEMPLATE_ENGINE);
-        resp.setContentType("text/html;charset=UTF-8");
+        WebContext webContext = new WebContext(req, resp, getServletContext(), req.getLocale());
 
-        SqlSession openSession = null;
-        Employee employee = null;
-        try {
-            SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
-            openSession = factory.openSession();
-            EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
-            employee = mapper.getEmpById(1);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        finally {
-            if (openSession != null) openSession.close();
-        }
+        String id = req.getParameter("groupId");
+        List<com.tomcat.netChat.javaBeans.Chat> chats = ChatService.groupChat(Integer.parseInt(id));
 
-        if (employee != null) {
-            WebContext webContext = new WebContext(req, resp, getServletContext(), req.getLocale());
-            webContext.setVariable("emp", employee);
-            webContext.setVariable("layout", new LayoutInitialize(true, true, false, false));
-            templateEngine.process("employee", webContext, resp.getWriter());
-        }
+        webContext.setVariable("chats", chats);
+        templateEngine.process("Chat/chat", webContext, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        doGet(req, resp);
+
+        TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(NetChatApplication.TEMPLATE_ENGINE);
+        WebContext webContext = new WebContext(req, resp, getServletContext(), req.getLocale());
+
+        String message = req.getParameter("message");
+        String group = req.getParameter("groupId");
+        String sender = req.getParameter("senderId");
+        boolean chat = ChatService.chat(message, Integer.parseInt(group), Integer.parseInt(sender));
+
+        if (chat) {
+            doGet(req, resp);
+        } else {
+            webContext.setVariable("exception", "post Chat is failed!!");
+            templateEngine.process("exception", webContext, resp.getWriter());
+        }
     }
 }

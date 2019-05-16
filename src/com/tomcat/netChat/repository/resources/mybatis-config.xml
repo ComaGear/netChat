@@ -21,5 +21,8 @@
 
     <mappers>
         <mapper class="com.tomcat.netChat.repository.dao.EmployeeMapper"/>
+        <mapper class="com.tomcat.netChat.repository.dao.ChatMapper"/>
+        <mapper class="com.tomcat.netChat.repository.dao.GroupChatMapper"/>
+        <mapper class="com.tomcat.netChat.repository.dao.UserMapper"/>
     </mappers>
 </configuration>

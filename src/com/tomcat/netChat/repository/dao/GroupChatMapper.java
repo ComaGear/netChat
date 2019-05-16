@@ -12,6 +12,8 @@ public interface GroupChatMapper {
 
     public GroupChat getGroupById(Integer id);
 
+    public GroupChat getGroupByName(String name);
+
     public List<GroupChat> getGroupByAll();
 
     public boolean deleteGroupById(Integer id);

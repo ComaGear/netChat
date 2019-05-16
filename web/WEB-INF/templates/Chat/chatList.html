@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout :: link}"/>
+</head>
+<body>
+
+<th:block th:replace="~{layout :: top-panel}"/>
+<th:block th:replace="~{layout :: left-panel}"/>
+
+<div class="content-area">
+    <table id="chatList">
+        <tr>
+            <th>Group Chat Id</th>
+            <th>Group Name</th>
+            <th>Group Detail</th>
+            <th>Creator</th>
+            <th>Created Date</th>
+        </tr>
+        <tr th:each="group : ${chatList}" th:if="chatList">
+            <td th:text="*{group.id}">1</td>
+            <td th:text="*{group.groupName}">Basic Group Name</td>
+            <td th:text="*{group.detail}">Basic Group Detail</td>
+            <td th:text="*{group.creator.id}">User</td>
+            <td th:text="*{group.date}">2000/1/1</td>
+        </tr>
+    </table>
+    <p>Create new Group Chat</p>
+    <form action="/ROOT" target="_blank" method="post">
+        Group Name:<br>
+        <input type="text" name="groupName" value="Basic Group"/><br>
+        Detail:<br>
+        <input type="text" name="detail" value="Basic group detail"/><br>
+        Creator id<br>
+        <input type="text" name="creatorId" value="1"><br>
+        <input type="submit" value="submit"/>
+    </form>
+</div>
+</body>
+</html>

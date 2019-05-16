@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout :: link}"/>
+</head>
+<body>
+
+<th:block th:replace="~{layout :: top-panel}"/>
+<th:block th:replace="~{layout :: left-panel}"/>
+
+<div class="content-area">
+    <table id="chatsTable">
+        <tr>
+            <th>Chat Id</th>
+            <th>Message</th>
+            <th>Sender</th>
+            <th>Created Date</th>
+        </tr>
+        <tr th:each="chat : ${chats}">
+            <td th:value="${chat.id}">1</td>
+            <td th:value="${chat.message}">Basic Group Name</td>
+            <td th:value="${chat.sender.id}">User</td>
+            <td th:value="${chat.updateDate}">2000/1/1</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

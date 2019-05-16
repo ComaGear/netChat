@@ -57,4 +57,7 @@ public class GroupChat {
         this.date = date;
         this.creator = creator;
     }
+
+    public GroupChat() {
+    }
 }

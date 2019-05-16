@@ -95,3 +95,17 @@ body {
     margin-top: 4em;
     margin-left: 270px;
 }
+
+table {
+    border-collapse: collapse;
+    border: 1px solid gray;
+    margin: 3px;
+}
+
+table th {
+    background-color: orange;
+}
+
+table tr:nth-child(even) {
+    background-color: #909090;
+}

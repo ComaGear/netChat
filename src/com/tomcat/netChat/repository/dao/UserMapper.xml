@@ -12,15 +12,15 @@
 
 <mapper namespace="com.tomcat.netChat.repository.dao.UserMapper">
 
-    <select id="initializeUserTable">
-        create table user
+    <update id="initializeUserTable">
+        create table if not exists user
         (
             id        int auto_increment not null,
             user_name varchar(225),
             comment   varchar(225),
             primary key (id)
         );
-    </select>
+    </update>
 
     <select id="getUserById" resultType="com.tomcat.netChat.javaBeans.User">
         select *

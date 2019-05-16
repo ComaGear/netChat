@@ -15,8 +15,8 @@
 
 <mapper namespace="com.tomcat.netChat.repository.dao.GroupChatMapper">
 
-    <select id="initializeGroup">
-        create table group
+    <update id="initializeGroup">
+        create table if not exists group_chat
         (
             id         int auto_increment not null,
             group_name varchar(255)       not null,
@@ -26,10 +26,10 @@
             primary key (id),
             foreign key (creator_id) references user (id)
         );
-    </select>
+    </update>
 
     <insert id="insertGroup">
-        insert into group (group_name, detail, creator_id)
+        insert into group_chat (group_name, detail, creator_id)
         values (#{groupName},
                 #{detail},
                 #{creator.id})
@@ -37,18 +37,24 @@
 
     <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat">
         select *
-        from group
+        from group_chat
         where id = #{id}
+    </select>
+
+    <select id="getGroupByName" resultType="com.tomcat.netChat.javaBeans.GroupChat">
+        select *
+        from group_chat
+        where group_name = #{groupName}
     </select>
 
     <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat">
         select *
-        from group;
+        from group_chat;
     </select>
 
     <delete id="deleteGroupById">
         delete
-        from group
+        from group_chat
         where id = #{id}
     </delete>
 </mapper>

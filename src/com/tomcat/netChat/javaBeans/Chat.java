@@ -57,4 +57,7 @@ public class Chat {
         this.updateDate = updateDate;
         this.message = message;
     }
+
+    public Chat() {
+    }
 }
