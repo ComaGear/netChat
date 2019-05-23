@@ -1,6 +1,7 @@
 package com.tomcat.netChat.web.servlet;
 
 import com.tomcat.netChat.NetChatApplication;
+import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.service.ChatService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -20,9 +21,12 @@ public class Chat extends HttpServlet {
         WebContext webContext = new WebContext(req, resp, getServletContext(), req.getLocale());
 
         String id = req.getParameter("groupId");
-        List<com.tomcat.netChat.javaBeans.Chat> chats = ChatService.groupChat(Integer.parseInt(id));
+        List<com.tomcat.netChat.javaBeans.Chat> chats = ChatService.chat(Integer.parseInt(id));
+        List<GroupChat> groupChats = ChatService.groupChatList();
 
         webContext.setVariable("chats", chats);
+        webContext.setVariable("chatList", groupChats);
+        webContext.setVariable("leftType", "target");
         templateEngine.process("Chat/chat", webContext, resp.getWriter());
     }
 

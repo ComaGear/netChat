@@ -8,7 +8,10 @@
 <body>
 
 <th:block th:replace="~{layout :: top-panel}"/>
-<th:block th:replace="~{layout :: left-panel}"/>
+
+<div th:replace="layout :: left-panel(${chatList}, ${leftType})">
+
+</div>
 
 <div class="content-area">
     <table id="chatsTable">

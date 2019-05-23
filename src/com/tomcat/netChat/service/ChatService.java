@@ -6,6 +6,7 @@ import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -28,22 +29,28 @@ public class ChatService {
 
     public static boolean createGroupChat(String groupName, Integer creatorId, String detail) throws IOException {
         SqlSession openSession = openSession();
-        GroupChatMapper mapper = openSession.getMapper(GroupChatMapper.class);
+        GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
+        ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-        User creator = new User();
-        creator.setId(creatorId);
-        GroupChat groupChat = new GroupChat();
-        groupChat.setGroupName(groupName);
-        groupChat.setCreator(creator);
-        groupChat.setDetail(detail);
-        boolean b = mapper.insertGroup(groupChat);
+        GroupChat groupChat = new GroupChat(groupName, new User(creatorId), detail);
+        groupChatMapper.insertGroup(groupChat);
+        chatMapper.initializeChat(groupChat);
 
+        boolean b;
+        try {
+            chatMapper.getChatByAll(groupChat);
+            b = true;
+        } catch (PersistenceException e) {
+            b = false;
+            e.printStackTrace();
+        }
         openSession.commit();
         openSession.close();
+
         return b;
     }
 
-    public static List<Chat> groupChat(Integer id) throws IOException {
+    public static List<Chat> chat(Integer id) throws IOException {
         SqlSession openSession = openSession();
         GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
         ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
@@ -59,21 +66,11 @@ public class ChatService {
         SqlSession openSession = openSession();
         ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-        GroupChat groupChat = new GroupChat();
-        groupChat.setId(groupId);
-
-        User user = new User();
-        user.setId(senderId);
-
-        Chat chat = new Chat();
-        chat.setMessage(message);
-        chat.setGroup(groupChat);
-        chat.setSender(user);
-        boolean b = chatMapper.insertChat(chat);
+        int i = chatMapper.insertChat(new GroupChat(groupId), new Chat(new User(senderId), message));
 
         openSession.commit();
         openSession.close();
-        return b;
+        return i != 0;
     }
 
     private static SqlSession openSession() throws IOException {

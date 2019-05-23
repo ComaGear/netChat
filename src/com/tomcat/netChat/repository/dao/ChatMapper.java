@@ -3,18 +3,19 @@ package com.tomcat.netChat.repository.dao;
 import com.tomcat.netChat.javaBeans.Chat;
 import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.javaBeans.User;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.List;
 
 public interface ChatMapper {
 
-    public boolean initializeChat();
+    void initializeChat(GroupChat groupChat);
 
-    public List<Chat> getChatByNew(GroupChat groupChat, Integer obtainAmount);
+    List<Chat> getChatByNew(GroupChat groupChat, Integer obtainAmount);
 
-    public List<Chat> getChatByAll(GroupChat groupChat);
+    List<Chat> getChatByAll(GroupChat groupChat);
 
-    public boolean insertChat(Chat chat);
+    int insertChat(GroupChat groupChat, Chat chat);
 
-    public boolean deleteChat(Integer id);
+    int deleteChat(GroupChat groupChat, Chat chat);
 }

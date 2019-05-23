@@ -26,6 +26,7 @@ body {
     background-color: #010101;
     display: block;
     height: 2.68em;
+    z-index: 2;
 }
 
 .top-panel > li {
@@ -91,21 +92,66 @@ body {
     bottom: 0;
 }
 
+.left-panel a {
+    text-decoration: none;
+    display: block;
+}
+
 .content-area {
     margin-top: 4em;
     margin-left: 270px;
 }
 
-table {
+#chatList {
     border-collapse: collapse;
     border: 1px solid gray;
     margin: 3px;
+    display: block;
 }
 
-table th {
-    background-color: orange;
+#chatList .individual-chats {
+    margin: 0.5em;
+    background-color: #f9db77;
+    border: 1px solid #e0c060;
 }
 
-table tr:nth-child(even) {
-    background-color: #909090;
+#chatList div {
+    margin: 0.25em 0.5em;
+    size: 1em;
+    padding: 0.5em;
+}
+
+#chatList .chats-id {
+    position: relative;
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+#chatList .chats-name {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#chatList .chats-date {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+#chatList .chats-detail {
+    position: relative;
+    left: 0;
+    bottom: 0;
+}
+
+#chatList .chats-creator {
+    position: relative;
+    right: 0;
+    bottom: 0;
+}
+
+#create-group {
+    background-color: #e0e0e0;
 }

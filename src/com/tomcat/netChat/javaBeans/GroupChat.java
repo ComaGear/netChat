@@ -1,14 +1,15 @@
 package com.tomcat.netChat.javaBeans;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class GroupChat {
 
     private Integer id;
     private String groupName;
-    private String detail;
-    private Date date;
+    private Timestamp date;
     private User creator;
+    private String detail;
 
     public Integer getId() {
         return id;
@@ -38,7 +39,7 @@ public class GroupChat {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -50,12 +51,22 @@ public class GroupChat {
         this.creator = creator;
     }
 
-    public GroupChat(Integer id, String groupName, String detail, Date date, User creator) {
+    public GroupChat(Integer id, String groupName, Timestamp date, User creator, String detail) {
         this.id = id;
         this.groupName = groupName;
-        this.detail = detail;
         this.date = date;
         this.creator = creator;
+        this.detail = detail;
+    }
+
+    public GroupChat(String groupName, User creator, String detail) {
+        this.groupName = groupName;
+        this.creator = creator;
+        this.detail = detail;
+    }
+
+    public GroupChat(Integer id) {
+        this.id = id;
     }
 
     public GroupChat() {

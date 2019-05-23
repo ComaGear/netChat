@@ -22,34 +22,48 @@
             group_name varchar(255)       not null,
             detail     varchar(255),
             date       timestamp          not null,
-            creator_id int,
+            creator_id int                not null,
             primary key (id),
             foreign key (creator_id) references user (id)
-        );
+        )
     </update>
 
-    <insert id="insertGroup">
+    <insert id="insertGroup" useGeneratedKeys="true" keyProperty="id">
         insert into group_chat (group_name, detail, creator_id)
         values (#{groupName},
                 #{detail},
                 #{creator.id})
     </insert>
 
-    <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat">
-        select *
-        from group_chat
-        where id = #{id}
+    <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChatIndividual">
+        select g.id         as group_id,
+               g.group_name as group_name,
+               g.detail     as group_detail,
+               g.date       as group_date,
+               u.id         as user_id,
+               u.user_name  as user_name,
+               u.comment    as user_comment
+        from group_chat g
+                 left join user u on g.creator_id = u.id
+        where g.id = #{id}
     </select>
 
     <select id="getGroupByName" resultType="com.tomcat.netChat.javaBeans.GroupChat">
         select *
         from group_chat
-        where group_name = #{groupName}
+        where group_name = '%${groupName}%'
     </select>
 
-    <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat">
-        select *
-        from group_chat;
+    <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChatIndividual">
+        select g.id         as group_id,
+               g.group_name as group_name,
+               g.detail     as group_detail,
+               g.date       as group_date,
+               u.id         as user_id,
+               u.user_name  as user_name,
+               u.comment    as user_comment
+        from group_chat g
+                 left join user u on g.creator_id = u.id
     </select>
 
     <delete id="deleteGroupById">
@@ -57,4 +71,19 @@
         from group_chat
         where id = #{id}
     </delete>
+
+    <resultMap id="groupChatIndividual" type="com.tomcat.netChat.javaBeans.GroupChat">
+        <id property="id" column="group_id"/>
+        <result property="groupName" column="group_name"/>
+        <result property="detail" column="group_detail"/>
+        <result property="date" column="group_date" jdbcType="TIMESTAMP"/>
+        <association property="creator" column="user_id" javaType="com.tomcat.netChat.javaBeans.User"
+                     resultMap="simpleUserInfo"/>
+    </resultMap>
+
+    <resultMap id="simpleUserInfo" type="com.tomcat.netChat.javaBeans.User">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="comment" column="user_comment"/>
+    </resultMap>
 </mapper>

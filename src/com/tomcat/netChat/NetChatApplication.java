@@ -31,7 +31,7 @@ public class NetChatApplication {
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setCacheTTLMs(Long.valueOf(3600000L));
-        templateResolver.setCacheable(true);
+        templateResolver.setCacheable(false);
 
         this.templateEngine = new TemplateEngine();
         this.templateEngine.setTemplateResolver(templateResolver);
@@ -45,7 +45,6 @@ public class NetChatApplication {
 
             userMapper.initializeUserTable();
             groupChatMapper.initializeGroup();
-            chatMapper.initializeChat();
 
             openSession.commit();
             openSession.close();

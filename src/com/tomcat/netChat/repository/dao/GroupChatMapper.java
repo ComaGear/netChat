@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface GroupChatMapper {
 
-    public boolean initializeGroup();
+    void initializeGroup();
 
-    public boolean insertGroup(GroupChat group);
+    int insertGroup(GroupChat group);
 
-    public GroupChat getGroupById(Integer id);
+    GroupChat getGroupById(Integer id);
 
-    public GroupChat getGroupByName(String name);
+    GroupChat getGroupByName(String name);
 
-    public List<GroupChat> getGroupByAll();
+    List<GroupChat> getGroupByAll();
 
-    public boolean deleteGroupById(Integer id);
+    int deleteGroupById(Integer id);
 }

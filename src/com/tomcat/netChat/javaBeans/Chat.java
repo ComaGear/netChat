@@ -6,7 +6,6 @@ public class Chat {
 
     private Integer id;
     private User sender;
-    private GroupChat group;
     private Date updateDate;
     private String message;
 
@@ -26,13 +25,6 @@ public class Chat {
         this.sender = senderId;
     }
 
-    public GroupChat getGroup() {
-        return group;
-    }
-
-    public void setGroup(GroupChat group) {
-        this.group = group;
-    }
 
     public Date getUpdateDate() {
         return updateDate;
@@ -50,11 +42,15 @@ public class Chat {
         this.message = message;
     }
 
-    public Chat(Integer id, User sender, GroupChat group, Date updateDate, String message) {
+    public Chat(Integer id, User sender, Date updateDate, String message) {
         this.id = id;
         this.sender = sender;
-        this.group = group;
         this.updateDate = updateDate;
+        this.message = message;
+    }
+
+    public Chat(User sender, String message) {
+        this.sender = sender;
         this.message = message;
     }
 
