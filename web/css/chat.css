@@ -1,0 +1,98 @@
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+.group-description {
+    margin: 0.5em;
+    background-color: #f9db77;
+    border: 1px solid #e0c060;
+    height: 5em;
+    position: relative;
+}
+
+.group-description .chats-id {
+    font-size: 0.7em;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.group-description .chats-name {
+    font-size: 1.1em;
+    position: absolute;
+    top: 3px;
+    left: 4em;
+}
+
+.group-description .chats-date {
+    font-size: 0.8em;
+    position: absolute;
+    top: 3px;
+    right: 1em;
+}
+
+.group-description .chats-detail {
+    font-size: 0.9em;
+    position: absolute;
+    top: 2em;
+    left: 1em;
+}
+
+.group-description .chats-creator {
+    font-size: 0.9em;
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+}
+
+#chats {
+    border: 1px solid black;
+    marign: 0.5em;
+    position: relative;
+    height: auto;
+}
+
+#chats .chat {
+    border: 1px solid #e0e0e0;
+    margin: 0.3em;
+    height: 3em;
+    position: relative;
+}
+
+#chats .chat-id {
+    font-size: 0.7em;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+#chats .chat-message {
+    font-size: 0.9em;
+    position: absolute;
+    top: 1.1em;
+    left: 1em;
+}
+
+#chats .chat-sender {
+    font-size: 1em;
+    position: absolute;
+    top: 3px;
+    left: 4em;
+}
+
+#chats .chat-date {
+    font-size: 0.8em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}

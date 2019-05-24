@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface UserMapper {
 
-    public boolean initializeUserTable();
+    boolean initializeUserTable();
 
-    public User getUserById(Integer id);
+    User getUserById(Integer id);
 
-    public boolean insertUser(User user);
+    boolean insertUser(User user);
 
-    public boolean deleteUserById(Integer id);
+    boolean deleteUserById(Integer id);
 }

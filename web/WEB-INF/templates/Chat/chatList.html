@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <th:block th:replace="~{layout :: link}"/>
+    <link rel="stylesheet" type="text/css" href="css/chatList.css">
 </head>
 <body>
 
@@ -12,21 +13,22 @@
 <div class="content-area">
     <div id="chatList">
         <div class="individual-chats" th:each="group : ${chatList}" th:if="chatList">
-            <p class="chats-id" th:text="*{group.id}">
+            <span class="chats-id" th:text="*{group.id}">
                 1
-            </p>
-            <p class="chats-name" th:text="*{group.groupName}">
+            </span>
+            <a class="chats-name" th:text="*{group.groupName}" th:href="@{/Chat(groupId=*{group.id})}">
                 Basic Group Name
-            </p>
-            <p class="chats-detail" th:text="*{group.detail}">
+            </a>
+            <span class="chats-detail" th:text="*{group.detail}">
                 Basic Group Detail
-            </p>
-            <p class="chats-creator" th:text="*{group.creator.id}">
+            </span>
+            <span class="chats-date" th:text="*{#dates.format(group.date, 'dd/MMM/yyyy HH:mm')}">
+            1990/01/01
+            </span>
+            <a class="chats-creator" href="/user?user=1" th:text="*{group.creator.name}"
+               th:href="@{/user(userId=${group.creator.id})}">
                 User Id
-            </p>
-            <p class="chats-date" th:text="*{#dates.format(group.date, 'dd/MMM/yyyy HH:mm')}">
-                1990/01/01
-            </p>
+            </a>
         </div>
     </div>
 

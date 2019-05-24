@@ -1,12 +1,13 @@
 package com.tomcat.netChat.javaBeans;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Chat {
 
     private Integer id;
     private User sender;
-    private Date updateDate;
+    private Timestamp updateDate;
     private String message;
 
     public Integer getId() {
@@ -25,12 +26,11 @@ public class Chat {
         this.sender = senderId;
     }
 
-
     public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 
@@ -42,7 +42,7 @@ public class Chat {
         this.message = message;
     }
 
-    public Chat(Integer id, User sender, Date updateDate, String message) {
+    public Chat(Integer id, User sender, Timestamp updateDate, String message) {
         this.id = id;
         this.sender = sender;
         this.updateDate = updateDate;

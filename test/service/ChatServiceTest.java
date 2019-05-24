@@ -64,4 +64,22 @@ public class ChatServiceTest {
 
         assertTrue(b);
     }
+
+    @Test
+    public void insertChatWithGroupIdUsedMapper() throws IOException {
+        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
+        SqlSession openSession = factory.openSession();
+        ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
+
+        int i = chatMapper.insertChat(new GroupChat(17), new Chat(new User(1), "hello"));
+
+        assertEquals(1, i);
+    }
+
+    @Test
+    public void insertChatInService() throws IOException {
+        boolean b = ChatService.chat("hello", 17, 1);
+
+        assertTrue(b);
+    }
 }

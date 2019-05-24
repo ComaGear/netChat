@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${currentGroup.groupName}">Title</title>
     <th:block th:replace="~{layout :: link}"/>
+    <link href="css/chat.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -14,20 +15,40 @@
 </div>
 
 <div class="content-area">
-    <table id="chatsTable">
-        <tr>
-            <th>Chat Id</th>
-            <th>Message</th>
-            <th>Sender</th>
-            <th>Created Date</th>
-        </tr>
-        <tr th:each="chat : ${chats}">
-            <td th:value="${chat.id}">1</td>
-            <td th:value="${chat.message}">Basic Group Name</td>
-            <td th:value="${chat.sender.id}">User</td>
-            <td th:value="${chat.updateDate}">2000/1/1</td>
-        </tr>
-    </table>
+    <div class="group-description">
+        <span class="chats-id" th:text="*{currentGroup.id}">
+            1
+        </span>
+        <span class="chats-name" th:text="*{currentGroup.groupName}">
+            Basic Group Name
+        </span>
+        <span class="chats-detail" th:text="*{currentGroup.detail}">
+            Basic Group Detail
+        </span>
+        <span class="chats-date" th:text="*{#dates.format(currentGroup.date, 'dd/MMM/yyyy HH:mm')}">
+            1990/01/01
+        </span>
+        <a class="chats-creator" th:text="*{currentGroup.creator.name}"
+           th:href="@{/user(userId=${currentGroup.creator.id})}">
+            User Id
+        </a>
+    </div>
+    <div id="chats">
+        <div class="chat" th:each="chat : ${chats}">
+            <span class="chat-id" th:text="${chat.id}">1</span>
+            <span class="chat-message" th:text="${chat.message}">Basic Group Name</span>
+            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/user(userId=${chat.sender.id})}">User</a>
+            <span class="chat-date" th:text="${chat.updateDate}">2000/1/1</span>
+        </div>
+    </div>
+    <div id="input-panel">
+        <form th:action="@{/Chat}" target="_self" method="post">
+            <input type="text" name="message">
+            <input type="text" name="senderId">
+            <input type="hidden" name="groupId" th:value="${currentGroup.id}">
+            <input type="submit" value="submit">
+        </form>
+    </div>
 </div>
 </body>
 </html>

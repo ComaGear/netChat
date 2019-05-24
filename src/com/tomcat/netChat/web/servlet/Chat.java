@@ -23,10 +23,12 @@ public class Chat extends HttpServlet {
         String id = req.getParameter("groupId");
         List<com.tomcat.netChat.javaBeans.Chat> chats = ChatService.chat(Integer.parseInt(id));
         List<GroupChat> groupChats = ChatService.groupChatList();
+        GroupChat currentGroup = ChatService.groupChat(Integer.parseInt(id));
 
         webContext.setVariable("chats", chats);
         webContext.setVariable("chatList", groupChats);
         webContext.setVariable("leftType", "target");
+        webContext.setVariable("currentGroup", currentGroup);
         templateEngine.process("Chat/chat", webContext, resp.getWriter());
     }
 

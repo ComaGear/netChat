@@ -27,17 +27,28 @@
         );
     </update>
 
-    <select id="getChatByNew" resultType="com.tomcat.netChat.javaBeans.Chat">
-        select *
-        from chat${id}
-        where date
-        order by date
+    <select id="getChatByNew" resultType="com.tomcat.netChat.javaBeans.Chat"
+            resultMap="chat">
+        select c.id        as chat_id,
+               c.message   as chat_message,
+               c.date      as chat_date,
+               u.id        as user_id,
+               u.user_name as user_name
+        from chat${id} c
+                 left join user u on c.sender_id = u.id
+        order by u.date
         limit #{obtainAmount};
     </select>
 
-    <select id="getChatByAll" resultType="com.tomcat.netChat.javaBeans.Chat">
-        select *
-        from chat${id}
+    <select id="getChatByAll" resultType="com.tomcat.netChat.javaBeans.Chat"
+            resultMap="chat">
+        select c.id        as chat_id,
+               c.message   as chat_message,
+               c.date      as chat_date,
+               u.id        as user_id,
+               u.user_name as user_name
+        from chat${id} c
+                 left join user u on c.sender_id = u.id
         order by date;
     </select>
 
@@ -52,4 +63,19 @@
         from chat${groupChat.id}
         where id = #{chat.id}
     </insert>
+
+    <resultMap id="chat" type="com.tomcat.netChat.javaBeans.Chat">
+        <id property="id" column="chat_id"/>
+        <result property="message" column="chat_message"/>
+        <result property="updateDate" column="chat_date"
+                jdbcType="TIMESTAMP"/>
+        <association property="sender" column="user_id"
+                     javaType="com.tomcat.netChat.javaBeans.User"
+                     resultMap="simpleUser"/>
+    </resultMap>
+
+    <resultMap id="simpleUser" type="com.tomcat.netChat.javaBeans.User">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+    </resultMap>
 </mapper>

@@ -50,6 +50,14 @@ public class ChatService {
         return b;
     }
 
+    public static GroupChat groupChat(Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
+        GroupChat groupById = groupChatMapper.getGroupById(id);
+
+        return groupById;
+    }
+
     public static List<Chat> chat(Integer id) throws IOException {
         SqlSession openSession = openSession();
         GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);

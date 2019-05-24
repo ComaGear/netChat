@@ -26,17 +26,13 @@
     </ul>
 
     <div class="left-panel" th:fragment="left-panel (chatList, leftType)">
-        <div th:if="${leftType} == 'local'">
-            <th:block th:each="group : ${chatList}">
-                <a th:text="*{group.groupName}" th:href="'#' + *{group.id}"></a>
-            </th:block>
-        </div>
+        <th:block th:each="group : ${chatList}" th:if="${leftType} == 'local'">
+            <a th:text="*{group.groupName}" th:href="'#' + *{group.id}"></a>
+        </th:block>
 
-        <div th:if="${leftType} == 'target'">
-            <th:block th:each="group : ${chatList}">
-                <a th:text="*{group.groupName}" th:href="@{/Chat(groupId=${group.id})}"></a>
-            </th:block>
-        </div>
+        <th:block th:each="group : ${chatList}" th:if="${leftType} == 'target'">
+            <a th:text="*{group.groupName}" th:href="@{/Chat(groupId=${group.id})}"></a>
+        </th:block>
     </div>
 
     <div class="content-area" th:class="content-area">
