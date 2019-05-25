@@ -6,6 +6,7 @@ import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
+import com.tomcat.netChat.repository.dao.UserMapper;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class ChatService {
 
-    public static List<GroupChat> groupChatList() throws IOException {
+    public static List<GroupChat> groupChat() throws IOException {
         SqlSession openSession = openSession();
         GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
@@ -27,7 +28,7 @@ public class ChatService {
         return group;
     }
 
-    public static boolean createGroupChat(String groupName, Integer creatorId, String detail) throws IOException {
+    public static boolean groupChat(String groupName, Integer creatorId, String detail) throws IOException {
         SqlSession openSession = openSession();
         GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
         ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
@@ -58,6 +59,26 @@ public class ChatService {
         return groupById;
     }
 
+    public static List<GroupChat> userGroupChat(Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
+
+        List<GroupChat> groupByUser = groupChatMapper.getGroupByUser(id);
+
+        openSession.close();
+        return groupByUser;
+    }
+
+    public static boolean deleteGroupChat(Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
+
+        int i = groupChatMapper.deleteGroupById(id);
+
+        openSession.close();
+        return i != 0;
+    }
+
     public static List<Chat> chat(Integer id) throws IOException {
         SqlSession openSession = openSession();
         GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
@@ -79,6 +100,47 @@ public class ChatService {
         openSession.commit();
         openSession.close();
         return i != 0;
+    }
+
+    public static boolean deleteChat(Integer groupId, Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
+
+        int i = chatMapper.deleteChat(new GroupChat(groupId), new Chat(id));
+
+        openSession.close();
+        return i != 0;
+    }
+
+    public static User user(Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        UserMapper userMapper = openSession.getMapper(UserMapper.class);
+
+        User user = userMapper.getUserById(id);
+
+        openSession.close();
+        return user;
+    }
+
+    public static User user(String userName, String detail) throws IOException {
+        SqlSession openSession = openSession();
+        UserMapper userMapper = openSession.getMapper(UserMapper.class);
+
+        User user = new User(userName, detail);
+        userMapper.insertUser(user);
+
+        openSession.close();
+        return user;
+    }
+
+    public static boolean deleteUser(Integer id) throws IOException {
+        SqlSession openSession = openSession();
+        UserMapper userMapper = openSession.getMapper(UserMapper.class);
+
+        boolean b = userMapper.deleteUserById(id);
+
+        openSession.close();
+        return b;
     }
 
     private static SqlSession openSession() throws IOException {

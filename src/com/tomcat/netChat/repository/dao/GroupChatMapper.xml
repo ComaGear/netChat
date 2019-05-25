@@ -35,7 +35,7 @@
                 #{creator.id})
     </insert>
 
-    <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChatIndividual">
+    <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
         select g.id         as group_id,
                g.group_name as group_name,
                g.detail     as group_detail,
@@ -54,7 +54,20 @@
         where group_name = '%${groupName}%'
     </select>
 
-    <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChatIndividual">
+    <select id="getGroupByUser" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
+        select g.id         as group_id,
+               g.group_name as group_name,
+               g.detail     as group_detail,
+               g.date       as group_date,
+               u.id         as user_id,
+               u.user_name  as user_name,
+               u.comment    as user_comment
+        from group_chat g
+                 left join user u on g.creator_id = u.id
+        where creator_id = #{id}
+    </select>
+
+    <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
         select g.id         as group_id,
                g.group_name as group_name,
                g.detail     as group_detail,
@@ -72,7 +85,7 @@
         where id = #{id}
     </delete>
 
-    <resultMap id="groupChatIndividual" type="com.tomcat.netChat.javaBeans.GroupChat">
+    <resultMap id="groupChat" type="com.tomcat.netChat.javaBeans.GroupChat">
         <id property="id" column="group_id"/>
         <result property="groupName" column="group_name"/>
         <result property="detail" column="group_detail"/>

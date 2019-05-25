@@ -36,6 +36,11 @@ public class User {
         this.comment = comment;
     }
 
+    public User(String name, String comment) {
+        this.name = name;
+        this.comment = comment;
+    }
+
     public User(Integer id) {
         this.id = id;
     }

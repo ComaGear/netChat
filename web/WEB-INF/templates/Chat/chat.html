@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${currentGroup.groupName}">Title</title>
+    <title th:text="${currentChats.groupName}">Title</title>
     <th:block th:replace="~{layout :: link}"/>
     <link href="css/chat.css" rel="stylesheet" type="text/css">
 </head>
@@ -16,20 +16,20 @@
 
 <div class="content-area">
     <div class="group-description">
-        <span class="chats-id" th:text="*{currentGroup.id}">
+        <span class="chats-id" th:text="*{currentChats.id}">
             1
         </span>
-        <span class="chats-name" th:text="*{currentGroup.groupName}">
+        <span class="chats-name" th:text="*{currentChats.groupName}">
             Basic Group Name
         </span>
-        <span class="chats-detail" th:text="*{currentGroup.detail}">
+        <span class="chats-detail" th:text="*{currentChats.detail}">
             Basic Group Detail
         </span>
-        <span class="chats-date" th:text="*{#dates.format(currentGroup.date, 'dd/MMM/yyyy HH:mm')}">
+        <span class="chats-date" th:text="*{#dates.format(currentChats.date, 'dd/MMM/yyyy HH:mm')}">
             1990/01/01
         </span>
-        <a class="chats-creator" th:text="*{currentGroup.creator.name}"
-           th:href="@{/user(userId=${currentGroup.creator.id})}">
+        <a class="chats-creator" th:text="*{currentChats.creator.name}"
+           th:href="@{/user(userId=${currentChats.creator.id})}">
             User Id
         </a>
     </div>
@@ -44,8 +44,7 @@
     <div id="input-panel">
         <form th:action="@{/Chat}" target="_self" method="post">
             <input type="text" name="message">
-            <input type="text" name="senderId">
-            <input type="hidden" name="groupId" th:value="${currentGroup.id}">
+            <input type="hidden" name="groupId" th:value="${currentChats.id}">
             <input type="submit" value="submit">
         </form>
     </div>

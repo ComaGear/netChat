@@ -36,7 +36,7 @@ public class ChatServiceTest {
 
     @Test
     public void checkGroupChatVariables() throws IOException {
-        List<GroupChat> groupChats = ChatService.groupChatList();
+        List<GroupChat> groupChats = ChatService.groupChat();
         GroupChat groupChat = groupChats.get(0);
         assertEquals(new Integer(1), groupChat.getId());
         assertEquals("testing Chat", groupChat.getGroupName());
@@ -60,7 +60,7 @@ public class ChatServiceTest {
 
     @Test
     public void checkInitializeStructure() throws IOException {
-        boolean b = ChatService.createGroupChat("test", 1, "test detail");
+        boolean b = ChatService.groupChat("test", 1, "test detail");
 
         assertTrue(b);
     }
@@ -81,5 +81,21 @@ public class ChatServiceTest {
         boolean b = ChatService.chat("hello", 17, 1);
 
         assertTrue(b);
+    }
+
+    @Test
+    public void userCreate() throws IOException {
+        User user = ChatService.user("userAbc", "user named abc");
+
+        assertNotNull(user.getId());
+    }
+
+    @Test
+    public void returnedUserDetail() throws IOException {
+        User user = ChatService.user(1);
+
+        assertEquals(new Integer(1), user.getId());
+        assertEquals("ComaGear", user.getName());
+        assertNotNull(user.getComment());
     }
 }

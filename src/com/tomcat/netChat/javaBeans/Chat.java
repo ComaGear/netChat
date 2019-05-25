@@ -54,6 +54,10 @@ public class Chat {
         this.message = message;
     }
 
+    public Chat(Integer id) {
+        this.id = id;
+    }
+
     public Chat() {
     }
 }

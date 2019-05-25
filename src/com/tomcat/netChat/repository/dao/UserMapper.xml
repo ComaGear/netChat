@@ -22,13 +22,15 @@
         );
     </update>
 
-    <select id="getUserById" resultType="com.tomcat.netChat.javaBeans.User">
-        select *
+    <select id="getUserById" resultType="com.tomcat.netChat.javaBeans.User" resultMap="user">
+        select id        as user_id,
+               user_name as user_name,
+               comment   as user_comment
         from user
         where #{id}
     </select>
 
-    <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User">
+    <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User" useGeneratedKeys="true" keyProperty="id">
         insert into user (user_name, comment)
         values (#{name},
                 #{comment});
@@ -39,4 +41,14 @@
         from user
         where id = #{id}
     </delete>
+
+    <resultMap id="user" type="com.tomcat.netChat.javaBeans.User">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="comment" column="user_comment"/>
+    </resultMap>
+
+    <resultMap id="simpleUser" type="com.tomcat.netChat.javaBeans.User">
+
+    </resultMap>
 </mapper>
