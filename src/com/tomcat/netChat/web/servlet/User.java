@@ -2,6 +2,7 @@ package com.tomcat.netChat.web.servlet;
 
 import com.tomcat.netChat.NetChatApplication;
 import com.tomcat.netChat.service.ChatService;
+import org.apache.ibatis.annotations.Param;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -20,36 +21,28 @@ public class User extends HttpServlet {
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(NetChatApplication.TEMPLATE_ENGINE);
         WebContext webContext = new WebContext(req, resp, getServletContext(), req.getLocale());
 
-        boolean isPreview = false;
-        try {
-            String userId = req.getParameter("userId");
-            isPreview = true;
+        String userId = req.getParameter("userId");
+        if (userId != null) {
             com.tomcat.netChat.javaBeans.User user = ChatService.user(Integer.parseInt(userId));
+
             webContext.setVariable("user", user);
             webContext.setVariable("isPreview", true);
             templateEngine.process("Chat/user", webContext, resp.getWriter());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } else {
 
-        if (!isPreview) {
-            boolean isLogin = false;
-            try {
-                Cookie[] cookies = req.getCookies();
-                Cookie cookie = cookies[0];
-                String userId = cookie.getValue();
-                isLogin = true;
-                com.tomcat.netChat.javaBeans.User user = ChatService.user(Integer.parseInt(userId));
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                Cookie cookie = getSpecifyNamedCookie(cookies, "userId");
+                if (cookie != null) {
+                    userId = cookie.getValue();
+                    com.tomcat.netChat.javaBeans.User user = ChatService.user(Integer.parseInt(userId));
 
-                webContext.setVariable("user", user);
-                templateEngine.process("Chat/user", webContext, resp.getWriter());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
+                    webContext.setVariable("user", user);
+                    webContext.setVariable("isPreview", true);
+                    templateEngine.process("Chat/user", webContext, resp.getWriter());
+                }
+            } else {
 
-            if (!isLogin) {
                 webContext.setVariable("isPreview", false);
                 templateEngine.process("Chat/user", webContext, resp.getWriter());
             }
@@ -78,5 +71,12 @@ public class User extends HttpServlet {
             webContext.setVariable("exception", "post Chat is failed!!");
             templateEngine.process("exception", webContext, resp.getWriter());
         }
+    }
+
+    private Cookie getSpecifyNamedCookie(Cookie[] cookies, String name) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) return cookie;
+        }
+        return null;
     }
 }

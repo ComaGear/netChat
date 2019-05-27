@@ -75,6 +75,7 @@ public class ChatService {
 
         int i = groupChatMapper.deleteGroupById(id);
 
+        openSession.commit();
         openSession.close();
         return i != 0;
     }
@@ -108,6 +109,7 @@ public class ChatService {
 
         int i = chatMapper.deleteChat(new GroupChat(groupId), new Chat(id));
 
+        openSession.commit();
         openSession.close();
         return i != 0;
     }
@@ -129,6 +131,7 @@ public class ChatService {
         User user = new User(userName, detail);
         userMapper.insertUser(user);
 
+        openSession.commit();
         openSession.close();
         return user;
     }
@@ -139,6 +142,7 @@ public class ChatService {
 
         boolean b = userMapper.deleteUserById(id);
 
+        openSession.commit();
         openSession.close();
         return b;
     }

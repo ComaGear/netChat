@@ -29,7 +29,7 @@
             1990/01/01
         </span>
         <a class="chats-creator" th:text="*{currentChats.creator.name}"
-           th:href="@{/user(userId=${currentChats.creator.id})}">
+           th:href="@{/User(userId=${currentChats.creator.id})}">
             User Id
         </a>
     </div>
@@ -37,7 +37,7 @@
         <div class="chat" th:each="chat : ${chats}">
             <span class="chat-id" th:text="${chat.id}">1</span>
             <span class="chat-message" th:text="${chat.message}">Basic Group Name</span>
-            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/user(userId=${chat.sender.id})}">User</a>
+            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/User(userId=${chat.sender.id})}">User</a>
             <span class="chat-date" th:text="${chat.updateDate}">2000/1/1</span>
         </div>
     </div>

@@ -6,6 +6,7 @@ import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
+import com.tomcat.netChat.repository.dao.UserMapper;
 import com.tomcat.netChat.service.ChatService;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -92,10 +93,33 @@ public class ChatServiceTest {
 
     @Test
     public void returnedUserDetail() throws IOException {
-        User user = ChatService.user(1);
+        User user = ChatService.user(7);
 
-        assertEquals(new Integer(1), user.getId());
+        assertEquals(new Integer(7), user.getId());
         assertEquals("ComaGear", user.getName());
+        System.out.println(user.getName());
         assertNotNull(user.getComment());
     }
+
+    @Test
+    public void returnedUserDetailFromMapper() throws IOException {
+        SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
+        SqlSession openSession = factory.openSession();
+        UserMapper userMapper = openSession.getMapper(UserMapper.class);
+
+        User userById = userMapper.getUserById(7);
+
+        assertEquals("userAbc", userById.getName());
+    }
+
+    @Test
+    public void insertAndSelectUserDetail() throws IOException {
+        User user = ChatService.user("User1", "this is user1 detail");
+
+        User user1 = ChatService.user(user.getId());
+        assertEquals(user.getId(), user1.getId());
+        assertEquals(user.getName(), user1.getName());
+        assertEquals(user.getComment(), user1.getComment());
+    }
+
 }

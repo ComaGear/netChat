@@ -133,6 +133,11 @@
         <servlet-class>com.tomcat.netChat.web.servlet.ROOT</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>User</servlet-name>
+        <servlet-class>com.tomcat.netChat.web.servlet.User</servlet-class>
+    </servlet>
+
     <filter>
         <filter-name>NetFilter</filter-name>
         <filter-class>com.tomcat.netChat.web.filter.NetChatInitialFilter</filter-class>
@@ -180,6 +185,11 @@
     <servlet-mapping>
         <servlet-name>ROOT</servlet-name>
         <url-pattern>/ROOT</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>User</servlet-name>
+        <url-pattern>/User</url-pattern>
     </servlet-mapping>
 
 
