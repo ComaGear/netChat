@@ -16,19 +16,19 @@
 
 <div class="content-area">
     <div class="group-description">
-        <span class="chats-id" th:text="*{currentChats.id}">
+        <span class="chats-id" th:text="${currentChats.id}">
             1
         </span>
-        <span class="chats-name" th:text="*{currentChats.groupName}">
+        <span class="chats-name" th:text="${currentChats.groupName}">
             Basic Group Name
         </span>
-        <span class="chats-detail" th:text="*{currentChats.detail}">
+        <span class="chats-detail" th:text="${currentChats.detail}">
             Basic Group Detail
         </span>
-        <span class="chats-date" th:text="*{#dates.format(currentChats.date, 'dd/MMM/yyyy HH:mm')}">
+        <span class="chats-date" th:text="${#dates.format(currentChats.date, 'dd/MMM/yyyy HH:mm')}">
             1990/01/01
         </span>
-        <a class="chats-creator" th:text="*{currentChats.creator.name}"
+        <a class="chats-creator" th:text="${currentChats.creator.name}"
            th:href="@{/User(userId=${currentChats.creator.id})}">
             User Id
         </a>
@@ -38,7 +38,7 @@
             <span class="chat-id" th:text="${chat.id}">1</span>
             <span class="chat-message" th:text="${chat.message}">Basic Group Name</span>
             <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/User(userId=${chat.sender.id})}">User</a>
-            <span class="chat-date" th:text="${chat.updateDate}">2000/1/1</span>
+            <span class="chat-date" th:text="${#dates.format(chat.updateDate, 'dd/MMM/yyyy HH:mm')}">2000/1/1</span>
         </div>
     </div>
     <div id="input-panel">

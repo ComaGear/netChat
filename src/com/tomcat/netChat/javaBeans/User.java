@@ -3,6 +3,8 @@ package com.tomcat.netChat.javaBeans;
 public class User {
 
     private Integer id;
+    private String email;
+    private String password;
     private String name;
     private String comment;
 
@@ -30,15 +32,38 @@ public class User {
         this.comment = comment;
     }
 
-    public User(Integer id, String name, String comment) {
-        this.id = id;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(String email, String name, String comment) {
+        this.email = email;
         this.name = name;
         this.comment = comment;
     }
 
-    public User(String name, String comment) {
+    public User(String email, String password, String name, String comment) {
+        this.email = email;
+        this.password = password;
         this.name = name;
         this.comment = comment;
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
     public User(Integer id) {

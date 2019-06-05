@@ -1,4 +1,4 @@
-package service;
+package com.tomcat.netChat.service;
 
 import com.tomcat.netChat.NetChatApplication;
 import com.tomcat.netChat.javaBeans.Chat;

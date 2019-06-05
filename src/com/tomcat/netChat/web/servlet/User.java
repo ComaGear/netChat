@@ -2,6 +2,7 @@ package com.tomcat.netChat.web.servlet;
 
 import com.tomcat.netChat.NetChatApplication;
 import com.tomcat.netChat.service.ChatService;
+import com.tomcat.netChat.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -23,7 +24,7 @@ public class User extends HttpServlet {
 
         String userId = req.getParameter("userId");
         if (userId != null) {
-            com.tomcat.netChat.javaBeans.User user = ChatService.user(Integer.parseInt(userId));
+            com.tomcat.netChat.javaBeans.User user = UserService.user(Integer.parseInt(userId));
 
             webContext.setVariable("user", user);
             webContext.setVariable("isPreview", true);
@@ -35,7 +36,7 @@ public class User extends HttpServlet {
                 Cookie cookie = getSpecifyNamedCookie(cookies, "userId");
                 if (cookie != null) {
                     userId = cookie.getValue();
-                    com.tomcat.netChat.javaBeans.User user = ChatService.user(Integer.parseInt(userId));
+                    com.tomcat.netChat.javaBeans.User user = UserService.user(Integer.parseInt(userId));
 
                     webContext.setVariable("user", user);
                     webContext.setVariable("isPreview", true);
@@ -58,7 +59,7 @@ public class User extends HttpServlet {
         String userName = req.getParameter("userName");
         String comment = req.getParameter("comment");
 
-        com.tomcat.netChat.javaBeans.User user = ChatService.user(userName, comment);
+        com.tomcat.netChat.javaBeans.User user = UserService.user(userName, comment);
 
 
         Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));

@@ -11,6 +11,10 @@ public interface UserMapper {
 
     User getUserById(Integer id);
 
+    User getUserByEmail(String email);
+
+    User identifyUserWithEmailPassword(User user);
+
     boolean insertUser(User user);
 
     boolean deleteUserById(Integer id);

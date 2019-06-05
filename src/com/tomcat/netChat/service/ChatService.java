@@ -114,39 +114,6 @@ public class ChatService {
         return i != 0;
     }
 
-    public static User user(Integer id) throws IOException {
-        SqlSession openSession = openSession();
-        UserMapper userMapper = openSession.getMapper(UserMapper.class);
-
-        User user = userMapper.getUserById(id);
-
-        openSession.close();
-        return user;
-    }
-
-    public static User user(String userName, String detail) throws IOException {
-        SqlSession openSession = openSession();
-        UserMapper userMapper = openSession.getMapper(UserMapper.class);
-
-        User user = new User(userName, detail);
-        userMapper.insertUser(user);
-
-        openSession.commit();
-        openSession.close();
-        return user;
-    }
-
-    public static boolean deleteUser(Integer id) throws IOException {
-        SqlSession openSession = openSession();
-        UserMapper userMapper = openSession.getMapper(UserMapper.class);
-
-        boolean b = userMapper.deleteUserById(id);
-
-        openSession.commit();
-        openSession.close();
-        return b;
-    }
-
     private static SqlSession openSession() throws IOException {
         SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
         return factory.openSession();

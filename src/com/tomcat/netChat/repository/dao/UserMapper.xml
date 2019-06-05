@@ -15,24 +15,40 @@
     <update id="initializeUserTable">
         create table if not exists user
         (
-            id        int auto_increment not null,
-            user_name varchar(225),
-            comment   varchar(225),
+            id       int auto_increment not null,
+            email    varchar(255)       not null,
+            password varchar(255)       not null,
+            name     varchar(225),
+            comment  varchar(225),
+            primary key (email),
             primary key (id)
         );
     </update>
 
-    <select id="getUserById" resultType="com.tomcat.netChat.javaBeans.User" resultMap="user">
-        select id        as user_id,
-               user_name as user_name,
-               comment   as user_comment
+    <select id="getUserById" resultMap="user">
+
+        <include refid="aliasColumnUser"/>
         from user
-        where #{id}
+        where id = #{id}
+    </select>
+
+    <select id="getUserByEmail" resultMap="user">
+
+        <include refid="aliasColumnUser"/>
+        from user where email = #{email}
+    </select>
+
+    <select id="identifyUserWithEmailPassword" resultMap="user">
+
+        <include refid="aliasColumnUser"/>
+        where email = #{email} and password = #{password}
     </select>
 
     <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (user_name, comment)
-        values (#{name},
+        insert into user (email, password, user_name, comment)
+        values (#{email},
+                #{password},
+                #{name},
                 #{comment});
     </insert>
 
@@ -42,8 +58,18 @@
         where id = #{id}
     </delete>
 
+    <sql id="aliasColumnUser">
+        select id       as user_id,
+               email    as user_email,
+               password as user_password,
+               name     as user_name,
+               comment  as user_comment
+    </sql>
+
     <resultMap id="user" type="com.tomcat.netChat.javaBeans.User">
         <id property="id" column="user_id"/>
+        <result property="email" column="user_email"/>
+        <result property="password" column="user_password"/>
         <result property="name" column="user_name"/>
         <result property="comment" column="user_comment"/>
     </resultMap>
