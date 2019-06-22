@@ -1,80 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--public boolean initializeGroup();-->
-<!--public boolean insertGroup(GroupChat group);-->
-<!--public GroupChat getGroupById(Integer id);-->
-<!--public List<GroupChat> getGroupByAll();-->
-<!--public boolean deleteGroupById(Integer id);-->
-
-<!--private Integer id;-->
-<!--private String groupName;-->
-<!--private String detail;-->
-<!--private Date date;-->
-<!--private User creator;-->
-
 <mapper namespace="com.tomcat.netChat.repository.dao.GroupChatMapper">
 
     <update id="initializeGroup">
         create table if not exists group_chat
         (
-            id         int auto_increment not null,
-            group_name varchar(255)       not null,
-            detail     varchar(255),
-            date       timestamp          not null,
-            creator_id int                not null,
+            id            int auto_increment not null,
+            group_name    varchar(255)       not null,
+            detail        varchar(255),
+            date          timestamp          not null,
+            creator_email varchar(255)       not null,
             primary key (id),
-            foreign key (creator_id) references user (id)
+            foreign key (creator_email) references user (email)
         )
     </update>
 
     <insert id="insertGroup" useGeneratedKeys="true" keyProperty="id">
-        insert into group_chat (group_name, detail, creator_id)
+        insert into group_chat (group_name, detail, creator_email)
         values (#{groupName},
                 #{detail},
-                #{creator.id})
+                #{creator.email})
     </insert>
 
+    <update id="updateGroup" parameterType="com.tomcat.netChat.javaBeans.GroupChat">
+        update group_chat set
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="detail != null">
+                detail = #{detail},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
     <select id="getGroupById" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
-        select g.id         as group_id,
-               g.group_name as group_name,
-               g.detail     as group_detail,
-               g.date       as group_date,
-               u.id         as user_id,
-               u.user_name  as user_name,
-               u.comment    as user_comment
+
+        <include refid="aliasColumnGroup"/>
         from group_chat g
                  left join user u on g.creator_id = u.id
         where g.id = #{id}
     </select>
 
-    <select id="getGroupByName" resultType="com.tomcat.netChat.javaBeans.GroupChat">
+    <select id="getGroupByName" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
         select *
         from group_chat
         where group_name = '%${groupName}%'
     </select>
 
-    <select id="getGroupByUser" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
-        select g.id         as group_id,
-               g.group_name as group_name,
-               g.detail     as group_detail,
-               g.date       as group_date,
-               u.id         as user_id,
-               u.user_name  as user_name,
-               u.comment    as user_comment
+    <select id="getGroupByUserEmail" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
+
+        <include refid="aliasColumnGroup"/>
         from group_chat g
-                 left join user u on g.creator_id = u.id
-        where creator_id = #{id}
+        left join user u on g.creator_email = u.email
+        where creator_email = #{email}
     </select>
 
     <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
-        select g.id         as group_id,
-               g.group_name as group_name,
-               g.detail     as group_detail,
-               g.date       as group_date,
-               u.id         as user_id,
-               u.user_name  as user_name,
-               u.comment    as user_comment
+
+        <include refid="aliaColumnGroup"/>
         from group_chat g
                  left join user u on g.creator_id = u.id
     </select>
@@ -85,18 +71,26 @@
         where id = #{id}
     </delete>
 
+    <sql id="aliasColumnGroup">
+        select g.id         as group_id,
+               g.group_name as group_name,
+               g.detail     as group_detail,
+               g.date       as group_date,
+               u.email      as user_email,
+               u.name       as user_name
+    </sql>
+
     <resultMap id="groupChat" type="com.tomcat.netChat.javaBeans.GroupChat">
         <id property="id" column="group_id"/>
         <result property="groupName" column="group_name"/>
         <result property="detail" column="group_detail"/>
         <result property="date" column="group_date" jdbcType="TIMESTAMP"/>
-        <association property="creator" column="user_id" javaType="com.tomcat.netChat.javaBeans.User"
+        <association property="creator" column="user_email" javaType="com.tomcat.netChat.javaBeans.User"
                      resultMap="simpleUserInfo"/>
     </resultMap>
 
     <resultMap id="simpleUserInfo" type="com.tomcat.netChat.javaBeans.User">
-        <id property="id" column="user_id"/>
+        <id property="email" column="user_email"/>
         <result property="name" column="user_name"/>
-        <result property="comment" column="user_comment"/>
     </resultMap>
 </mapper>

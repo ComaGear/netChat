@@ -4,49 +4,45 @@
     <meta charset="UTF-8">
     <title th:text="${currentChats.groupName}">Title</title>
     <th:block th:replace="~{layout :: link}"/>
-    <link href="css/chat.css" rel="stylesheet" type="text/css">
+    <link th:href="css/chat.css" href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/chat.css" rel="stylesheet"
+          type="text/css">
+    <link href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/layout.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
 <th:block th:replace="~{layout :: top-panel}"/>
 
-<div th:replace="layout :: left-panel(${chatList}, ${leftType})">
-
-</div>
+<div th:replace="~{layout :: left-panel(${chatList}, ${leftType})}" th:class="left-panel"/>
 
 <div class="content-area">
-    <div class="group-description">
-        <span class="chats-id" th:text="${currentChats.id}">
-            1
-        </span>
-        <span class="chats-name" th:text="${currentChats.groupName}">
-            Basic Group Name
-        </span>
-        <span class="chats-detail" th:text="${currentChats.detail}">
-            Basic Group Detail
-        </span>
-        <span class="chats-date" th:text="${#dates.format(currentChats.date, 'dd/MMM/yyyy HH:mm')}">
-            1990/01/01
-        </span>
-        <a class="chats-creator" th:text="${currentChats.creator.name}"
-           th:href="@{/User(userId=${currentChats.creator.id})}">
-            User Id
-        </a>
-    </div>
     <div id="chats">
         <div class="chat" th:each="chat : ${chats}">
             <span class="chat-id" th:text="${chat.id}">1</span>
             <span class="chat-message" th:text="${chat.message}">Basic Group Name</span>
-            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/User(userId=${chat.sender.id})}">User</a>
+            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/userPreview(email=${chat.sender.email})}">User</a>
             <span class="chat-date" th:text="${#dates.format(chat.updateDate, 'dd/MMM/yyyy HH:mm')}">2000/1/1</span>
         </div>
     </div>
+</div>
+
+<div class="footer">
     <div id="input-panel">
         <form th:action="@{/Chat}" target="_self" method="post">
-            <input type="text" name="message">
+            <input type="text" name="message" class="text-area">
             <input type="hidden" name="groupId" th:value="${currentChats.id}">
             <input type="submit" value="submit">
         </form>
+    </div>
+</div>
+
+<div class="right-panel">
+    <div class="description card">
+        <span class="chats-id" th:text="${currentChats.id}">1</span>
+        <span class="chats-name" th:text="${currentChats.groupName}">Basic Group</span>
+        <span class="chats-detail" th:text="${currentChats.detail}">This is Basic Group</span>
+        <span class="chats-date" th:text="${#dates.format(currentChats.date, 'dd/MM/yyyy')}">12/12/1990</span>
+        <a class="chats-creator" th:text="${currentChats.creator.name}"
+           th:href="@{userPreview(email=${currentChats.creator.email})}">Basic</a>
     </div>
 </div>
 </body>

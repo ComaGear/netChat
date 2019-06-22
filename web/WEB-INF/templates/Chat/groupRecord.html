@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout :: link}"/>
+
+    <link rel="stylesheet" href="C:\Users\user\IntelliJIDEAProjects\NetChat\web\css\layout.css">
+</head>
+<body>
+<div id="create-group">
+    <p>Create new Group Chat</p>
+    <form action="/netChat/ROOT" target="_self" method="post">
+        Group Name:<br>
+        <input type="text" name="groupName" value="Basic Group"/><br>
+        Detail:<br>
+        <input type="text" name="detail" value="Basic group detail"/><br>
+        Creator id<br>
+        <input type="submit" value="submit"/>
+    </form>
+</div>
+</body>
+</html>

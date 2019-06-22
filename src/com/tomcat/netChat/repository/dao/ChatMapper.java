@@ -6,17 +6,18 @@ import com.tomcat.netChat.javaBeans.User;
 import org.apache.ibatis.annotations.Param;
 import org.omg.PortableInterceptor.INACTIVE;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ChatMapper {
 
-    void initializeChat(GroupChat groupChat);
+    void initializeChat(GroupChat groupChat) throws SQLException;
 
-    List<Chat> getChatByNew(@Param("groupChat") GroupChat groupChat, @Param("obtainAmount") Integer obtainAmount);
+    List<Chat> getChatByNew(@Param("groupChatId") Integer groupChatId, @Param("obtainAmount") Integer obtainAmount) throws SQLException;
 
-    List<Chat> getChatByAll(GroupChat groupChat);
+    List<Chat> getChatByAll(Integer groupChatId) throws SQLException;
 
-    int insertChat(@Param("groupChat") GroupChat groupChat, @Param("chat") Chat chat);
+    int insertChat(@Param("groupChatId") Integer groupChatId, @Param("allChatInRecord") Chat chat) throws SQLException;
 
-    int deleteChat(@Param("groupChat") GroupChat groupChat, @Param("chat") Chat chat);
+    int deleteChat(@Param("groupChatId") GroupChat groupChatId, @Param("allChatInRecord") Chat chat) throws SQLException;
 }

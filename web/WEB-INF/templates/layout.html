@@ -8,7 +8,7 @@
 <body>
 
     <!--<div th:fragment="header" .class="header">-->
-        <!--<img id="img-header" src="C:/Users/user/IntelliJIDEAProjects/NetChat/web/images/rca.png"/>-->
+    <!--<img id="img-header" src="C:/Users/search/IntelliJIDEAProjects/NetChat/web/images/rca.png"/>-->
         <!--<p class="header-description">Redstone Craftsman Association</p>-->
     <!--</div>-->
 
@@ -36,6 +36,17 @@
     </div>
 
     <div class="content-area" th:class="content-area">
+    </div>
+
+    <div class="right-panel" th:fragment="right-panel(currentChats)">
+        <div class="description card">
+            <span class="chats-id" th:text="*{currentChats.id}">1</span>
+            <span class="chats-name" th:text="*{currentChats.groupName}">Basic Group</span>
+            <span class="chats-detail" th:text="*{currentChats.detail}">This is Basic Group</span>
+            <span class="chats-date" th:text="*{#dates.format(currentChats.date, 'dd/MM/yyyy')}">12/12/1990</span>
+            <a class="chats-creator" th:text="*{currentChats.creator.name}"
+               th:href="@{userPreview(email=*{currentChats.creator.email})}">Basic</a>
+        </div>
     </div>
 </body>
 </html>

@@ -1,32 +1,101 @@
 <html>
 <head>
-    <link rel="stylesheet" href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/index.css" type="text/css"/>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		.not-decoration {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		#left-navigation-panel {
+			background-color: rgb(2, 8, 8);
+			height: 100%;
+			transition: 500ms;
+			position: fixed;
+			z-index: 1;
+		}
+
+		#top-navigation-panel {
+			background-color: rgb(32, 32, 32);
+			position: fixed;
+			top: 0;
+			height: 3em;
+			float: left;
+			transition: 500ms;
+			box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4);
+			z-index: 1;
+		}
+
+		.top-panel-component {
+			margin-top: 0;
+			padding: 0.38em 1em 0.5em 1em;
+			font-size: 1.5em;
+			background-color: rgba(64, 64, 64, 1);
+			display: inline-block;
+		}
+
+		#content-area {
+			position: relative;
+			top: 3em;
+			left: 16%;
+			height: 98%;
+			background-color: rgb(245, 245, 245);
+			width: 70%;
+		}
+
+		#right-info-panel {
+			position: absolute;
+			top: 3em;
+			right: 1%;
+			width: 12%;
+			height: 98%;
+			background-color: rgb(234, 234, 234);
+		}
+	</style>
 </head>
 <body>
-<img id="img-header" src="img/RCA.png"/>
-<ul class="top-menu">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#home">List</a></li>
-    <li><a href="#home">Application</a></li>
-    <li class="dropdown">
-        <a href="#home" class="dropdown-button">About Us</a>
-        <div class="dropdown-content">
-            <a href="#About-link">Team</a>
-            <a href="#About-link">Production</a>
-        </div>
-    </li>
-</ul>
-<div class="content-page">
-    <h1>Content Header</h1>
-    <p>some text. some text. some text. some text.
-    </p>
+<div id="left-navigation-panel" style="width:15%;">
+
 </div>
-<div class="right-side">
-    <a>Relative Content</a>
-    <a>Relative Content</a>
-    <a>Relative Content</a>
-    <a>Relative Content</a>
-    <a>Relative Content</a>
+<div id="top-navigation-panel" style="left: 15%; width: 85%;">
+	<ul class="not-decoration">
+		<li class="top-panel-component" onclick="leftPanelOperator()">
+			open
+		</li>
+	</ul>
 </div>
+<div id="content-area">
+	<div id="navigated-path">
+
+	</div>
+</div>
+
+<div id="right-info-panel">
+
+</div>
+
+
+<script>
+
+	var leftPanelState = true;
+
+	function leftPanelOperator() {
+		var left_panel = document.getElementById('left-navigation-panel');
+		var top_panel = document.getElementById('top-navigation-panel');
+		if (leftPanelState) {
+			left_panel.style = 'width: 0';
+			top_panel.style = 'left: 0; width: 100%';
+			leftPanelState = false;
+		} else {
+			left_panel.style = 'width: 15%';
+			top_panel.style = 'left: 15%; width: 85%;';
+			leftPanelState = true;
+		}
+	}
+</script>
 </body>
 </html>

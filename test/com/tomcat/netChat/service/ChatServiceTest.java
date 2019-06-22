@@ -7,7 +7,6 @@ import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
 import com.tomcat.netChat.repository.dao.UserMapper;
-import com.tomcat.netChat.service.ChatService;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -37,10 +36,10 @@ public class ChatServiceTest {
 
     @Test
     public void checkGroupChatVariables() throws IOException {
-        List<GroupChat> groupChats = ChatService.groupChat();
+        List<GroupChat> groupChats = ChatService.allRecordDescription();
         GroupChat groupChat = groupChats.get(0);
         assertEquals(new Integer(1), groupChat.getId());
-        assertEquals("testing Chat", groupChat.getGroupName());
+        assertEquals("testing Chats", groupChat.getGroupName());
         assertNotNull(groupChat.getDate());
         assertEquals(new Integer(1), groupChat.getCreator().getId());
         assertNotNull(groupChat.getDetail());
@@ -61,7 +60,7 @@ public class ChatServiceTest {
 
     @Test
     public void checkInitializeStructure() throws IOException {
-        boolean b = ChatService.groupChat("test", 1, "test detail");
+        boolean b = ChatService.createRecord("test", 1, "test detail");
 
         assertTrue(b);
     }
@@ -79,21 +78,21 @@ public class ChatServiceTest {
 
     @Test
     public void insertChatInService() throws IOException {
-        boolean b = ChatService.chat("hello", 17, 1);
+        boolean b = ChatService.recordingChat("hello", 17, 1);
 
         assertTrue(b);
     }
 
     @Test
     public void userCreate() throws IOException {
-        User user = ChatService.user("userAbc", "user named abc");
+        User user = UserService.match("userAbc", "search named abc");
 
         assertNotNull(user.getId());
     }
 
     @Test
     public void returnedUserDetail() throws IOException {
-        User user = ChatService.user(7);
+        User user = UserService.search(7);
 
         assertEquals(new Integer(7), user.getId());
         assertEquals("ComaGear", user.getName());
@@ -114,9 +113,9 @@ public class ChatServiceTest {
 
     @Test
     public void insertAndSelectUserDetail() throws IOException {
-        User user = ChatService.user("User1", "this is user1 detail");
+        User user = UserService.match("User1", "this is user1 detail");
 
-        User user1 = ChatService.user(user.getId());
+        User user1 = UserService.search(user.getId());
         assertEquals(user.getId(), user1.getId());
         assertEquals(user.getName(), user1.getName());
         assertEquals(user.getComment(), user1.getComment());

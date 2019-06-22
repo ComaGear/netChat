@@ -2,19 +2,10 @@ package com.tomcat.netChat.javaBeans;
 
 public class User {
 
-    private Integer id;
     private String email;
     private String password;
     private String name;
     private String comment;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -66,8 +57,8 @@ public class User {
         this.password = password;
     }
 
-    public User(Integer id) {
-        this.id = id;
+    public User(String email) {
+        this.email = email;
     }
 
     public User() {

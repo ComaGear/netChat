@@ -2,19 +2,22 @@ package com.tomcat.netChat.repository.dao;
 
 import com.tomcat.netChat.javaBeans.GroupChat;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface GroupChatMapper {
 
-    void initializeGroup();
+    void initializeGroup() throws SQLException;
 
-    int insertGroup(GroupChat group);
+    int insertGroup(GroupChat group) throws SQLException;
+
+    int updateGroup(GroupChat group);
 
     GroupChat getGroupById(Integer id);
 
     GroupChat getGroupByName(String name);
 
-    List<GroupChat> getGroupByUser(Integer id);
+    List<GroupChat> getGroupByUserEmail(String email);
 
     List<GroupChat> getGroupByAll();
 

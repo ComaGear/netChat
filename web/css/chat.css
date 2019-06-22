@@ -11,50 +11,6 @@ a:visited {
     color: black;
 }
 
-.group-description {
-    margin: 0.5em;
-    background-color: #f9db77;
-    border: 1px solid #e0c060;
-    height: 5em;
-    position: relative;
-}
-
-.group-description .chats-id {
-    font-size: 0.7em;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    color: rgba(0, 0, 0, 0.4);
-}
-
-.group-description .chats-name {
-    font-size: 1.1em;
-    position: absolute;
-    top: 3px;
-    left: 4em;
-}
-
-.group-description .chats-date {
-    font-size: 0.8em;
-    position: absolute;
-    top: 3px;
-    right: 1em;
-}
-
-.group-description .chats-detail {
-    font-size: 0.9em;
-    position: absolute;
-    top: 2em;
-    left: 1em;
-}
-
-.group-description .chats-creator {
-    font-size: 0.9em;
-    position: absolute;
-    right: 1em;
-    bottom: 1em;
-}
-
 #chats {
     border: 1px solid black;
     marign: 0.5em;
@@ -95,4 +51,17 @@ a:visited {
     position: absolute;
     top: 1em;
     right: 1em;
+}
+
+#input-panel .text-area {
+    border: 2px solid green;
+    padding: 4px 8px;
+    margin: 4px;
+    box-sizing: border-box;
+    width: 600px;
+    background-color: transparent;
+}
+
+#input-panel .text-area:focus {
+    outline: none;
 }

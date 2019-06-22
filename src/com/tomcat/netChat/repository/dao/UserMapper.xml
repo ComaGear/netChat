@@ -1,41 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--public User getUserById(Integer id);-->
-<!--public boolean insertUser(User user);-->
-<!--public boolean deleteUserById(Integer id);-->
-<!--public boolean deleteUserById(Integer id);-->
-
-<!--private Integer id;-->
-<!--private String name;-->
-<!--private String comment;-->
-
 <mapper namespace="com.tomcat.netChat.repository.dao.UserMapper">
 
     <update id="initializeUserTable">
         create table if not exists user
         (
-            id       int auto_increment not null,
             email    varchar(255)       not null,
             password varchar(255)       not null,
             name     varchar(225),
             comment  varchar(225),
-            primary key (email),
-            primary key (id)
+            primary key (email)
         );
     </update>
-
-    <select id="getUserById" resultMap="user">
-
-        <include refid="aliasColumnUser"/>
-        from user
-        where id = #{id}
-    </select>
 
     <select id="getUserByEmail" resultMap="user">
 
         <include refid="aliasColumnUser"/>
-        from user where email = #{email}
+        from user
+        where email = #{email}
     </select>
 
     <select id="identifyUserWithEmailPassword" resultMap="user">
@@ -44,31 +27,41 @@
         where email = #{email} and password = #{password}
     </select>
 
-    <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (email, password, user_name, comment)
+    <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User">
+        insert into user (email, password, user_name)
         values (#{email},
                 #{password},
-                #{name},
-                #{comment});
+                #{name})
     </insert>
 
-    <delete id="deleteUserById">
+    <update id="updateUser" parameterType="com.tomcat.netChat.javaBeans.User">
+        update user set
+        <trim suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="comment != null">
+                comment = #{comment},
+            </if>
+        </trim>
+        where email = #{email}
+    </update>
+
+    <delete id="deleteUserByEmail">
         delete
         from user
-        where id = #{id}
+        where email = #{email}
     </delete>
 
     <sql id="aliasColumnUser">
-        select id       as user_id,
-               email    as user_email,
+        select email    as user_email,
                password as user_password,
                name     as user_name,
                comment  as user_comment
     </sql>
 
     <resultMap id="user" type="com.tomcat.netChat.javaBeans.User">
-        <id property="id" column="user_id"/>
-        <result property="email" column="user_email"/>
+        <id property="email" column="user_email"/>
         <result property="password" column="user_password"/>
         <result property="name" column="user_name"/>
         <result property="comment" column="user_comment"/>

@@ -1,81 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--public boolean initializeChat();-->
-<!--public List<Chat> getChatByNew(Integer obtainAmount);-->
-<!--public List<Chat> getChatByAll();-->
-<!--public boolean insertChat(Chat chat);-->
-<!--public boolean deleteChat(Integer id);-->
-
-<!--private Integer id;-->
-<!--private User sender;-->
-<!--private GroupChat group;-->
-<!--private Date updateDate;-->
-<!--private String message;-->
-
 <mapper namespace="com.tomcat.netChat.repository.dao.ChatMapper">
 
     <update id="initializeChat" parameterType="Integer">
         create table if not exists chat${id}
         (
-            id        int auto_increment not null,
-            message   text,
-            date      timestamp          not null,
-            sender_id int                not null,
+            id           int auto_increment not null,
+            message      text,
+            date         timestamp          not null,
+            sender_email varchar(255)       not null,
             primary key (id),
-            foreign key (sender_id) references user (id)
+            foreign key (sender_email) references user (email)
         );
     </update>
 
-    <select id="getChatByNew" resultType="com.tomcat.netChat.javaBeans.Chat"
-            resultMap="chat">
-        select c.id        as chat_id,
-               c.message   as chat_message,
-               c.date      as chat_date,
-               u.id        as user_id,
-               u.user_name as user_name
-        from chat${id} c
-                 left join user u on c.sender_id = u.id
+    <select id="getChatByNew" resultType="com.tomcat.netChat.javaBeans.Chat" resultMap="chat">
+
+        <include refid="aliasColumnChat"/>
+        from chat${groupChatId} c
+        left join user u on c.sender_email = u.email
         order by u.date
         limit #{obtainAmount};
     </select>
 
-    <select id="getChatByAll" resultType="com.tomcat.netChat.javaBeans.Chat"
-            resultMap="chat">
-        select c.id        as chat_id,
-               c.message   as chat_message,
-               c.date      as chat_date,
-               u.id        as user_id,
-               u.user_name as user_name
-        from chat${id} c
-                 left join user u on c.sender_id = u.id
+    <select id="getChatByAll" resultType="com.tomcat.netChat.javaBeans.Chat" resultMap="chat">
+        <include refid="aliasColumnChat"/>
+        from chat${gorupChatId} c
+        left join user u on c.sender_email = u.email
         order by date;
     </select>
 
     <insert id="insertChat">
-        insert into chat${groupChat.id} (message, sender_id)
+        insert into chat${groupChatId} (message, sender_email)
         values (#{chat.message},
-                #{chat.sender.id});
+                #{chat.sender.email});
     </insert>
 
-    <insert id="deleteChat">
+    <delete id="deleteChat">
         delete
-        from chat${groupChat.id}
+        from chat${groupChatId}
         where id = #{chat.id}
-    </insert>
+    </delete>
+
+    <sql id="aliasColumnChat">
+        select c.id      as chat_id,
+               c.message as chat_message,
+               c.date    as chat_date,
+               u.email   as user_email,
+               u.name    as user_name
+    </sql>
 
     <resultMap id="chat" type="com.tomcat.netChat.javaBeans.Chat">
         <id property="id" column="chat_id"/>
         <result property="message" column="chat_message"/>
         <result property="updateDate" column="chat_date"
                 jdbcType="TIMESTAMP"/>
-        <association property="sender" column="user_id"
+        <association property="sender" column="user_email"
                      javaType="com.tomcat.netChat.javaBeans.User"
                      resultMap="simpleUser"/>
     </resultMap>
 
     <resultMap id="simpleUser" type="com.tomcat.netChat.javaBeans.User">
-        <id property="id" column="user_id"/>
+        <id property="email" column="user_email"/>
         <result property="name" column="user_name"/>
     </resultMap>
 </mapper>

@@ -4,6 +4,24 @@ body {
     height: 100%;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:active {
+    color: black;
+    text-decoration: black;
+}
+
 #img-header {
     height: 4em;
     margin-left: 2em;
@@ -102,7 +120,84 @@ body {
     color: #202020;
 }
 
+.right-panel {
+    width: 200px;
+    position: absolute;
+    right: 0;
+    top: 2.68em;
+    overflow-y: auto;
+    float: right;
+    background-color: rgba(192, 192, 192, 0.8);
+    box-shadow: 0 0 8px black;
+}
+
+.right-panel div {
+    margin: 1em;
+    position: relative;
+    height: 6em;
+    background-image: linear-gradient(to bottom right, rgb(128, 164, 255), rgb(0, 0, 255));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 4px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.right-panel .description .chats-id {
+    position: absolute;
+    top: 1.5em;
+    left: 4px;
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.right-panel .description .chats-name {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+}
+
+.right-panel .description .chats-detail {
+    position: relative;
+    top: 2.5em;
+    left: 4px;
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.right-panel .description .chats-date {
+    position: absolute;
+    top: 1.5em;
+    right: 4px;
+    font-size: 0.5em;
+    color: rgba(255, 64, 64, 0.4);
+}
+
+.right-panel .description .chats-creator {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    color: rgb(64, 64, 64);
+}
+
 .content-area {
     margin-top: 4em;
     margin-left: 270px;
+    margin-right: 220px;
+    min-height: 50vw;
+}
+
+.button {
+    background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.large {
+    font-size: 2em;
+    padding: 0.5em 1em;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 270px;
+    right: 220px;
+    background-color: lightblue;
+    height: 50px;
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout :: link}"/>
+    <link th:href="css/chat.css" href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/chat.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" type="text/css" href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/chatList.css"
+          th:href="css/chatList.css">
+</head>
+<body>
+
+<th:block th:replace="~{layout :: top-panel}"/>
+
+<div class="content-area">
+    <div id="chatList">
+        <div class="individual-chats" th:each="group : ${chatList}" th:if="chatList">
+            <span class="chats-id" th:text="*{group.id}">
+                1
+            </span>
+            <a class="chats-name" th:text="*{group.groupName}" th:href="@{/Chat(groupId=*{group.id})}">
+                Basic Group Name
+            </a>
+            <span class="chats-detail" th:text="*{group.detail}">
+                Basic Group Detail
+            </span>
+            <span class="chats-date" th:text="*{#dates.format(group.date, 'dd/MMM/yyyy HH:mm')}">
+            1990/01/01
+            </span>
+            <a class="chats-creator" href="/user?user=1" th:text="*{group.creator.name}"
+               th:href="@{/userPreview(userEmail=${group.creator.email})}">
+                User Id
+            </a>
+        </div>
+
+        <div id="group-description">
+            <div class="individual-chats" th:object="${chatsDescription}">
+                <span class="chats-id" th:text="*{#object.id}">
+                1
+            </span>
+                <a class="chats-name" th:text="*{#object.groupName}" th:href="@{/chat(groupId=*{#object.id})}">
+                    Basic Group Name
+                </a>
+                <span class="chats-detail" th:text="*{#object.detail}">
+                Basic Group Detail
+            </span>
+                <span class="chats-date" th:text="*{#dates.format(#object.date, 'dd/MMM/yyyy HH:mm')}">
+            1990/01/01
+            </span>
+                <a class="chats-creator" href="/user?user=1" th:text="*{#object.creator.name}"
+                   th:href="@{/userPreview(userEmail=${#object.creator.email})}">
+                    User Id
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- /* se */ -->
+    <div class="footer">
+        <a class="button large" th:href="@{/groupRecord}">to be create the new group</a>
+    </div>
+</div>
+</body>
+</html>
