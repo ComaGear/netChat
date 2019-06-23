@@ -14,6 +14,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class NetChatApplication {
 
@@ -43,8 +44,12 @@ public class NetChatApplication {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            userMapper.initializeUserTable();
-            groupChatMapper.initializeGroup();
+            try {
+                userMapper.initializeUserTable();
+                groupChatMapper.initializeGroup();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             openSession.commit();
             openSession.close();
