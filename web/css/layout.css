@@ -1,9 +1,3 @@
-body {
-    font-family: sans-serif;
-    margin: 0;
-    height: 100%;
-}
-
 a {
     text-decoration: none;
     color: black;
@@ -31,45 +25,6 @@ a:active {
     float: right;
     font: 1.6em monospace;
     padding-bottom: 0;
-}
-
-.top-panel {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    background-color: #010101;
-    display: block;
-    height: 2.68em;
-    z-index: 2;
-}
-
-.top-panel > li {
-    float: left;
-}
-
-.top-panel > li:last-child {
-    float: right;
-}
-
-.top-panel > li > a {
-    font: 1.5em monospace;
-    background-color: #303030;
-    padding: 0.5em 1.5em;
-    text-decoration: none;
-    color: white;
-    display: inline-block;
-}
-
-.top-panel > li > a:hover {
-    background-color: #505050;
-}
-
-.top-panel > li > a.active {
-    background: #d05050;
 }
 
 .dropdown-content {
@@ -100,104 +55,118 @@ a:active {
     background-color: #505050;
 }
 
-.left-panel {
-    position: fixed;
-    overflow-y: scroll;
-    width: 250px;
-    float: left;
-    display: block;
-    top: 2.68em;
-    bottom: 0;
+/*that is new below*/
+
+body {
+    margin: 0;
 }
 
-.left-panel a {
-    display: block;
-    padding: 0.5em;
+* {
+    font-size: 1em;
+    font-family: sans-serif;
 }
 
-.left-panel a:hover {
-    background-color: #b0b0b0;
-    color: #202020;
-}
-
-.right-panel {
-    width: 200px;
-    position: absolute;
-    right: 0;
-    top: 2.68em;
-    overflow-y: auto;
-    float: right;
-    background-color: rgba(192, 192, 192, 0.8);
-    box-shadow: 0 0 8px black;
-}
-
-.right-panel div {
-    margin: 1em;
-    position: relative;
-    height: 6em;
-    background-image: linear-gradient(to bottom right, rgb(128, 164, 255), rgb(0, 0, 255));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 4px 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.right-panel .description .chats-id {
-    position: absolute;
-    top: 1.5em;
-    left: 4px;
-    font-size: 0.8em;
-    color: rgba(0, 0, 0, 0.5);
-}
-
-.right-panel .description .chats-name {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-}
-
-.right-panel .description .chats-detail {
-    position: relative;
-    top: 2.5em;
-    left: 4px;
-    font-size: 0.8em;
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.right-panel .description .chats-date {
-    position: absolute;
-    top: 1.5em;
-    right: 4px;
-    font-size: 0.5em;
-    color: rgba(255, 64, 64, 0.4);
-}
-
-.right-panel .description .chats-creator {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    color: rgb(64, 64, 64);
-}
-
-.content-area {
-    margin-top: 4em;
-    margin-left: 270px;
-    margin-right: 220px;
-    min-height: 50vw;
-}
-
-.button {
-    background-color: white;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-}
-
-.large {
-    font-size: 2em;
-    padding: 0.5em 1em;
+.not-decoration {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    left: 270px;
-    right: 220px;
-    background-color: lightblue;
-    height: 50px;
+    width: 100%;
+}
+
+a.button-hyperlink {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 0.3em 1em;
+}
+
+a.button-hyperlink:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+input.text {
+    border: none;
+    border-bottom: 2px solid rgb(234, 234, 234);
+    transition: 500ms;
+    background-color: rgba(234, 234, 234, 1);
+    padding: 0.5em;
+    width: 33%;
+    border-radius: 2px;
+}
+
+input.text:focus {
+    outline: none;
+    border-bottom: 2px solid green;
+}
+
+input.button {
+    border: none;
+    transition: 500ms;
+    background-color: rgba(234, 234, 234, 1);
+    padding: 0.5em;
+    border-radius: 2px;
+    margin-top: 1em;
+}
+
+#content-area {
+    position: relative;
+    top: 3em;
+    left: 16%;
+    min-height: 95%;
+    background-color: rgb(245, 245, 245);
+    width: 70%;
+}
+
+#left-navigation-panel {
+    background-color: rgb(2, 8, 8);
+    height: 100%;
+    transition: 500ms;
+    position: fixed;
+    top: 0;
+    z-index: -1;
+}
+
+#left-navigation-panel * {
+    color: white;
+}
+
+#left-navigation-panel a {
+    padding: 0.8em 0 0.8em 3em;
+}
+
+#top-navigation-panel {
+    background-color: rgb(32, 32, 32);
+    position: fixed;
+    top: 0;
+    height: 3em;
+    float: left;
+    transition: 500ms;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.top-panel-component {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(64, 64, 64, 1);
+    display: block;
+    float: left;
+}
+
+.top-panel-component > a, .top-panel-component > span {
+    font: 1.5em monospace;
+    background-color: #303030;
+    padding: 0.63em 1.5em;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+}
+
+.top-panel-component > *:hover {
+    background-color: #505050;
 }

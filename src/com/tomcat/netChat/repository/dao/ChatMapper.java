@@ -13,11 +13,11 @@ public interface ChatMapper {
 
     void initializeChat(GroupChat groupChat) throws SQLException;
 
-    List<Chat> getChatByNew(@Param("groupChatId") Integer groupChatId, @Param("obtainAmount") Integer obtainAmount) throws SQLException;
+    List<Chat> getChatByNew(@Param("groupChatId") int groupChatId, @Param("obtainAmount") int obtainAmount) throws SQLException;
 
-    List<Chat> getChatByAll(Integer groupChatId) throws SQLException;
+    List<Chat> getChatByAll(@Param("groupChatId") int groupChatId) throws SQLException;
 
-    int insertChat(@Param("groupChatId") Integer groupChatId, @Param("allChatInRecord") Chat chat) throws SQLException;
+    int insertChat(@Param("groupChatId") int groupChatId, @Param("chat") Chat chat) throws SQLException;
 
     int deleteChat(@Param("groupChatId") GroupChat groupChatId, @Param("allChatInRecord") Chat chat) throws SQLException;
 }

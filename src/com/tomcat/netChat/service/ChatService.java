@@ -37,14 +37,14 @@ public class ChatService {
         }
     }
 
-    public static Integer createRecord(String groupName, String creatorEmail, String detail) throws IOException, UserException {
+    public static Integer createRecord(String groupName, String detail, User creator) throws IOException, UserException {
         SqlSession openSession = null;
         try {
             openSession = openSession();
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            GroupChat groupChat = new GroupChat(groupName, new User(creatorEmail), detail);
+            GroupChat groupChat = new GroupChat(groupName, creator, detail);
             groupChatMapper.insertGroup(groupChat);
             chatMapper.initializeChat(groupChat);
 
@@ -112,7 +112,7 @@ public class ChatService {
             openSession = openSession();
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            List<Chat> chats = chatMapper.getChatByAll(id);
+            List<Chat> chats = chatMapper.getChatByAll(id.intValue());
 
             return chats;
         } catch (SQLException sqlE) {
@@ -128,13 +128,13 @@ public class ChatService {
         return null;
     }
 
-    public static boolean recordingChat(String message, Integer groupId, String senderEmail) throws IOException, ChatException {
+    public static boolean recordingChat(String message, Integer groupId, User sender) throws IOException, ChatException {
         SqlSession openSession = null;
         try {
             openSession = openSession();
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            int i = chatMapper.insertChat(groupId, new Chat(new User(senderEmail), message));
+            int i = chatMapper.insertChat(groupId, new Chat(sender, message));
 
             openSession.commit();
             return i > 0;

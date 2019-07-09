@@ -5,6 +5,14 @@ import java.util.Date;
 
 public class GroupChat {
 
+    public static final String TEMPLATE_VARIABLE = "groupChat";
+    public static final String TEMPLATE_VARIABLE_COLLECTION = "groupChatList";
+
+    public static final String ID = "groupId";
+    public static final String NAME = "groupName";
+    public static final String DETAIL = "groupDetail";
+    public static final String CREATOR = "groupCreator";
+
     private Integer id;
     private String groupName;
     private Timestamp date;

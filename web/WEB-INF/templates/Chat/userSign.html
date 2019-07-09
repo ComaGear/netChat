@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Record</title>
+    <th:block th:replace="~{layout :: link}"/>
+    <style>
+        .corner-space {
+            padding: 1em;
+        }
+
+        .label {
+            box-shadow: 0 3px 7px rgba(64, 64, 64, 0.5), 0 0 16px rgba(64, 64, 64, 0.3);
+            border-radius: 14px;
+            box-sizing: border-box;
+        }
+
+        .center {
+            margin-left: 33%;
+            width: 33%;
+        }
+
+        .shadow {
+            box-shadow: 1px 2px 6px rgba(64, 64, 64, 0.5);
+        }
+
+        .margin-top {
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+<div class="label center" style="background-color: white; height: 400px; margin-top: 12.5%; position: relative;">
+    <p class="corner-space">We need your email to identify ID, this meant your email is primary ID.
+        other property could edit later like user comments, name and password.</p>
+    <form id="user-record" method="post" style="width:100%;">
+        <div class="shadow" style="padding: 0 0 1em 0; background-color: rgb(216, 225, 234);">
+            <input class="center text shadow margin-top" id="input-user-name" name="name"
+                   onblur="hintValue(this, '', 'blur', 'your name');"
+                   onfocus="hintValue(this, 'your name', 'focus', '');"
+                   style="color: grey;"
+                   value="your name">
+            <br/>
+            <input class="center text shadow margin-top" id="input-user-email" name="email"
+                   onblur="hintValue(this, '', 'blur', 'your email');"
+                   onfocus="hintValue(this, 'your email', 'focus', '');"
+                   style="color: grey;"
+                   type="email"
+                   value="your email">
+            <br/>
+            <input class="center text shadow margin-top" id="input-user-password" name="password"
+                   onblur="hintValue(this, '', 'blur', 'password'); if(this.value == '') {this.type = 'text';}"
+                   onfocus="hintValue(this, 'password', 'focus', ''); this.type = 'password';"
+                   style="color: grey;"
+                   type="text"
+                   value="password">
+        </div>
+    </form>
+    <a class="corner-space" th:href="@{/login}">have been registered an account? just login now.</a>
+    <div class="footer">
+        <input class="button" name="submit" onclick="submit()" style="width:100%; border-radius: 0 0 12px 12px;"
+               type="submit">
+    </div>
+</div>
+</body>
+
+<script>
+    function submit() {
+        var determine = proofInput();
+        if (determine) {
+            document.getElementById('user-record').submit();
+        }
+    }
+
+    function proofInput() {
+        var inputName = document.getElementById('input-user-name').value;
+        var inputEmail = document.getElementById('input-user-email').value;
+        var inputPassword = document.getElementById('input-user-password').value;
+        if (inputName == 'your name') {
+            alert('you must input your name.');
+            return false;
+        }
+        if (inputEmail == 'your email') {
+            alert('you must input your email to identify as ID.');
+            return false;
+        }
+        if (inputPassword == 'password') {
+            alert('you must input your password.');
+            return false;
+        }
+        return true;
+    }
+
+    function hintValue(element, value, state, replace) {
+        if (element.value == value) {
+            switch (state) {
+                case 'focus' : {
+                    element.style = 'color: black;';
+                    element.value = replace;
+                    break;
+                }
+                case 'blur' : {
+                    element.style = 'color: gray;';
+                    element.value = replace;
+                    break;
+                }
+                default : {
+                    element.style = 'color: black';
+                    break;
+                }
+            }
+        }
+    }
+</script>
+</html>

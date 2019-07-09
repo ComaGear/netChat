@@ -2,6 +2,13 @@ package com.tomcat.netChat.javaBeans;
 
 public class User {
 
+    public static final String TEMPLATE_VARIABLE = "user";
+    public static final String TEMPLATE_VARIABLE_COLLECTION = "userList";
+
+    public static final String NAME = "userName";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL = "userEmail";
+
     private String email;
     private String password;
     private String name;
@@ -37,19 +44,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public User(String email, String name, String comment) {
-        this.email = email;
-        this.name = name;
-        this.comment = comment;
-    }
-
-    public User(String email, String password, String name, String comment) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.comment = comment;
     }
 
     public User(String email, String password) {

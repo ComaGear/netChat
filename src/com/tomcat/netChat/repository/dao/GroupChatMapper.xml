@@ -40,7 +40,7 @@
 
         <include refid="aliasColumnGroup"/>
         from group_chat g
-                 left join user u on g.creator_id = u.id
+        left join user u on g.creator_email = u.email
         where g.id = #{id}
     </select>
 
@@ -60,9 +60,9 @@
 
     <select id="getGroupByAll" resultType="com.tomcat.netChat.javaBeans.GroupChat" resultMap="groupChat">
 
-        <include refid="aliaColumnGroup"/>
+        <include refid="aliasColumnGroup"/>
         from group_chat g
-                 left join user u on g.creator_id = u.id
+        left join user u on g.creator_email = u.email
     </select>
 
     <delete id="deleteGroupById">

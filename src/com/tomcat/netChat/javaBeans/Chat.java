@@ -5,6 +5,13 @@ import java.util.Date;
 
 public class Chat {
 
+    public static final String TEMPLATE_VARIABLE = "chat";
+    public static final String TEMPLATE_VARIABLE_COLLECTION = "chatList";
+
+    public static final String ID = "chatId";
+    public static final String MESSAGE = "message";
+    public static final String SENDER = "sender";
+
     private Integer id;
     private User sender;
     private Timestamp updateDate;

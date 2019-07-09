@@ -2,48 +2,144 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${currentChats.groupName}">Title</title>
+    <title th:text="${groupChat.groupName}">Chat</title>
     <th:block th:replace="~{layout :: link}"/>
-    <link th:href="css/chat.css" href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/chat.css" rel="stylesheet"
-          type="text/css">
-    <link href="C:/Users/user/IntelliJIDEAProjects/NetChat/web/css/layout.css" rel="stylesheet" type="text/css">
+
+    <!--/*    individual style sheet file */-->
+    <link href="css/chat.css" rel="stylesheet" type="text/css">
+    <!--/*    global style sheet file */-->
+
+    <style>
+        #right-info-panel {
+            position: absolute;
+            top: 3em;
+            right: 1%;
+            width: 12%;
+            min-height: 95%;
+            background-color: rgb(234, 234, 234);
+        }
+
+        #chat-list {
+            height: 40vw;
+            display: block;
+            margin: 1em;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.6);
+            position: relative;
+            border-radius: 0.5%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .chat-list-component {
+            position: relative;
+            left: 1em;
+            margin-top: 1em;
+        }
+
+        .chat-list-component:last-child {
+            margin-bottom: 1em;
+        }
+
+        .chat-list-component .chat-content {
+            background-color: rgb(192, 216, 234);
+            max-width: 80%;
+            display: inline-block;
+            font-size: 1.1em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            padding: 0.2em 1em;
+            overflow-clip: true;
+        }
+
+        #chat-content-input {
+            width: 88%;
+            display: inline;
+            border: none;
+            background-color: rgba(234, 234, 234, 0.8);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+            padding: 0.5em 1em;
+        }
+
+        #chat-content-input:focus {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 
 <th:block th:replace="~{layout :: top-panel}"/>
 
-<div th:replace="~{layout :: left-panel(${chatList}, ${leftType})}" th:class="left-panel"/>
+<div th:replace="~{layout :: left-panel(user=${user})}"/>
 
-<div class="content-area">
-    <div id="chats">
-        <div class="chat" th:each="chat : ${chats}">
-            <span class="chat-id" th:text="${chat.id}">1</span>
-            <span class="chat-message" th:text="${chat.message}">Basic Group Name</span>
-            <a class="chat-sender" th:text="${chat.sender.name}" th:href="@{/userPreview(email=${chat.sender.email})}">User</a>
-            <span class="chat-date" th:text="${#dates.format(chat.updateDate, 'dd/MMM/yyyy HH:mm')}">2000/1/1</span>
-        </div>
+<div id="content-area">
+    <div id="navigated-path" style="background-color: rgb(180, 200, 220); font-size: 1.3em; padding: 0.1em 1em;">
+        chats ./ <span th:text="${groupChat.groupName}">Basic Group</span>
     </div>
-</div>
-
-<div class="footer">
-    <div id="input-panel">
-        <form th:action="@{/Chat}" target="_self" method="post">
-            <input type="text" name="message" class="text-area">
-            <input type="hidden" name="groupId" th:value="${currentChats.id}">
-            <input type="submit" value="submit">
+    <div id="chat-list">
+        <!--/*/
+        <div class="chat-list-component" th:each="chat : ${chatList}">
+            <span th:text="*{chat.sender.name}"></span><br>
+            <span class="chat-content" th:text="*{chat.message}"></span>
+        </div>
+        /*/-->
+        <!--/*-->
+        <div class="chat-list-component">
+            user : <br>
+            <span class="chat-content">Just say in the introduction section. Context is Web Application in the Host that deploy with context path as
+				([hostname]:[port]/hello), but it can be negative means default Web Application in the Host.</span>
+        </div>
+        <div class="chat-list-component">
+            user : <br>
+            <span class="chat-content">Here will explain how to deploy context, using context.xml or Web Management Application.</span>
+        </div>
+        <div class="chat-list-component">
+            user : <br>
+            <span class="chat-content">Can also distribute in the Web Application directory, or in tomcat installation subdirectory
+				config/[engine]/[hostname]/{relative application name}.xml. they have not difference work.
+				but in the subdirectory you can also deploy the WAR within your tomcat without altering the application Source code.</span>
+        </div>
+        <div class="chat-list-component">
+            user : <br>
+            <span class="chat-content">by default, you WAR will not auto-deploy if it not in the appBase attribute of Host.
+				appositely the WAR files put in the appBase will auto-deploy if the host has to set AutoDeploy to true(default have).
+				May be have a question, how to deploy the web application without in the appBase. one option is using the Web Management Application,
+				but it only deploy WAR. With the unpack application, the second option is Context distributor in the subdirectory.
+        </span>
+        </div>
+        <!--*/-->
+    </div>
+    <div class="footer" id="input-panel"
+         style="background-color: rgba(128, 192, 255, 1);min-height: 50px; position:relative;">
+        <form id="chat-input" style="margin: 1em 0 0 1em; position: relative;" method="post">
+            <input type="search" value="put your chat" id="chat-content-input" style="color: grey;" name="message"
+                   onfocus="if (this.value == 'put your chat') this.value='', this.style='color: black;'"
+                   onblur="if (this.value == '') this.value='put your chat', this.style='color: grey;'">
+            <input type="submit" value="send" style="width: 10%; display: inline; border: none; background-color: rgba(255, 255, 255, 0.8);
+					box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3); padding: 0.5em 1em; ">
         </form>
     </div>
 </div>
 
-<div class="right-panel">
-    <div class="description card">
-        <span class="chats-id" th:text="${currentChats.id}">1</span>
-        <span class="chats-name" th:text="${currentChats.groupName}">Basic Group</span>
-        <span class="chats-detail" th:text="${currentChats.detail}">This is Basic Group</span>
-        <span class="chats-date" th:text="${#dates.format(currentChats.date, 'dd/MM/yyyy')}">12/12/1990</span>
-        <a class="chats-creator" th:text="${currentChats.creator.name}"
-           th:href="@{userPreview(email=${currentChats.creator.email})}">Basic</a>
+<div id="right-info-panel">
+    <div id="current-path-information"
+         style="background-color: white; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); margin: 0.5em; min-height: 120px;">
+        <p style="text-align: center; margin: 0; font-size: 1.2em;" th:text="${groupChat.groupName}">Basic Group</p>
+        <p style="text-align: center; margin: 0; font-size: 1.1em; color: rgba(128, 128, 128, 0.6);"
+           th:text="${groupChat.id}">ID</p>
+        <div style="height: 1px; background-color: rgba(0, 0, 0, 0.6); "></div>
+        <p style="margin: 0.5em;" th:text="${groupChat.detail}">detail</p>
+        <p style="margin: 0; margin-left: 0.5em; font-size: 0.8em; color: rgba(0, 0, 0, 0.7);"
+           th:text="${#dates.format(groupChat.date, 'dd/MMM/yyyy HH:mm')}">created date</p>
+        <p style="margin: 0; margin-left: 0.5em; font-size: 1.1em; color: rgba(0, 0, 0, 0.8);"
+           th:text="${groupChat.creator.name}">creator name</p>
+    </div>
+    <div id="exist-related-user-list" style="background-color: rgba(245, 250, 255, 1)">
+        <a class="button-hyperlink" href="/chat">Coma Gear</a>
+        <a class="button-hyperlink">userABC</a>
+        <a class="button-hyperlink">marry</a>
     </div>
 </div>
+
+<script th:include="~{layout :: layout-script}"></script>
 </body>
 </html>

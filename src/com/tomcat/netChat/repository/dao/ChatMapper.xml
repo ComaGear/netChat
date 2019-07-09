@@ -26,7 +26,7 @@
 
     <select id="getChatByAll" resultType="com.tomcat.netChat.javaBeans.Chat" resultMap="chat">
         <include refid="aliasColumnChat"/>
-        from chat${gorupChatId} c
+        from chat${groupChatId} c
         left join user u on c.sender_email = u.email
         order by date;
     </select>

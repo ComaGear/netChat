@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.name}">User Name</title>
+    <th:block th:replace="~{layout :: link}"/>
+</head>
+<body>
+<th:block th:replace="~{layout :: top-panel}"/>
+
+<div id="content-area">
+    <div class="user-description" style="background-color: rgba(190, 245, 180, 1);">
+        <p class="user-id" th:text="${user.name}"
+           style="background-color: rgba(220, 255, 190, 1); padding: 0.5em 0 0 0.3em; margin: 0; font-size: 1.5em;">Coma
+            Gear</p>
+        <p class="user-name" th:text="${user.email}"
+           style="background-color: rgba(220, 255, 190, 1); padding: 0.3em 0.5em; margin: 0; color: rgba(0, 0, 0, 0.7); font: 1.3em monospace;">
+            coma.gear921@gmail.com</p>
+        <p class="user-comment" th:text="${user.comment}" style="padding: 0.3em; margin: 0;">Basic Comment</p>
+    </div>
+
+    <div id="chatList">
+        <div class="individual-chats" th:each="group : ${chats}">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

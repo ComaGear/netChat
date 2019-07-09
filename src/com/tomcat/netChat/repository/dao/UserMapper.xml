@@ -28,7 +28,7 @@
     </select>
 
     <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User">
-        insert into user (email, password, user_name)
+        insert into user (email, password, name)
         values (#{email},
                 #{password},
                 #{name})

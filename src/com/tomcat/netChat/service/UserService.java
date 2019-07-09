@@ -24,7 +24,7 @@ public class UserService {
             user = userMapper.getUserByEmail(email);
 
         } finally {
-            if (openSession != null) openSession.close();
+            openSession.close();
         }
 
         if (user == null) {
@@ -40,7 +40,10 @@ public class UserService {
             openSession = openSession();
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
-            User user = new User(email, password, userName);
+            User user = new User();
+            user.setEmail(email);
+            user.setName(userName);
+            user.setPassword(password);
             userMapper.insertUser(user);
 
             openSession.commit();

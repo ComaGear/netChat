@@ -14,7 +14,7 @@
         <typeAlias type="com.tomcat.netChat.javaBeans.Employee" alias="employee"/>
     </typeAliases>
 
-    <environments default="development">
+    <environments default="release">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
