@@ -4,13 +4,64 @@
     <meta charset="UTF-8">
     <title>Group List</title>
     <th:block th:replace="~{layout :: link}"/>
-    <link href="css/chat.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="css/chatList.css">
+
+    <style>
+        #chatList {
+            border-collapse: collapse;
+            border: 1px solid gray;
+            margin: 3px;
+            display: block;
+        }
+
+        #chatList .individual-chats {
+            margin: 0.5em;
+            background-color: #f9db77;
+            border: 1px solid #e0c060;
+            height: 5em;
+            position: relative;
+        }
+
+        #chatList .chats-id {
+            font-size: 0.7em;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        #chatList .chats-name {
+            font-size: 1.1em;
+            position: absolute;
+            top: 3px;
+            left: 4em;
+        }
+
+        #chatList .chats-date {
+            font-size: 0.8em;
+            position: absolute;
+            top: 3px;
+            right: 1em;
+        }
+
+        #chatList .chats-detail {
+            font-size: 0.9em;
+            position: absolute;
+            top: 2em;
+            left: 1em;
+        }
+
+        #chatList .chats-creator {
+            font-size: 0.9em;
+            position: absolute;
+            right: 1em;
+            bottom: 1em;
+        }
+    </style>
 </head>
 <body>
 
 <th:block th:replace="~{layout :: top-panel}"/>
-<!--<th:block th:replace="~{layout :: left-panel(user=${user})}"/>-->
+<th:block th:replace="~{layout :: left-panel(user=${user})}"/>
 
 <div id="content-area">
     <div id="chatList">

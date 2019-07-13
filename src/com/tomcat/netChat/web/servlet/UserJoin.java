@@ -17,12 +17,14 @@ import java.io.IOException;
 public class UserJoin extends HttpServlet {
 
     public static final String RELATIVE_PATH = "/join";
-    private static final String REPRESENT_RESOURCE_PATH = "Chat/usrSign";
+    private static final String REPRESENT_RESOURCE_PATH = "Chat/userSign";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(NetChatApplication.TEMPLATE_ENGINE);
         WebContext webContext = new WebContext(req, resp, getServletContext(), resp.getLocale());
+
+        webContext.setVariable("isLogin", false);
 
         templateEngine.process(REPRESENT_RESOURCE_PATH, webContext, resp.getWriter());
     }

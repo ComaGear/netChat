@@ -35,20 +35,20 @@
         other property could edit later like user comments, name and password.</p>
     <form id="user-record" method="post" style="width:100%;">
         <div class="shadow" style="padding: 0 0 1em 0; background-color: rgb(216, 225, 234);">
-            <input class="center text shadow margin-top" id="input-user-name" name="name"
+            <input class="center text shadow margin-top" id="input-user-name" name="userName" th:unless="${isLogin}"
                    onblur="hintValue(this, '', 'blur', 'your name');"
                    onfocus="hintValue(this, 'your name', 'focus', '');"
                    style="color: grey;"
                    value="your name">
             <br/>
-            <input class="center text shadow margin-top" id="input-user-email" name="email"
+            <input class="center text shadow margin-top" id="input-user-email" name="userEmail"
                    onblur="hintValue(this, '', 'blur', 'your email');"
                    onfocus="hintValue(this, 'your email', 'focus', '');"
                    style="color: grey;"
                    type="email"
                    value="your email">
             <br/>
-            <input class="center text shadow margin-top" id="input-user-password" name="password"
+            <input class="center text shadow margin-top" id="input-user-password" name="userPassword"
                    onblur="hintValue(this, '', 'blur', 'password'); if(this.value == '') {this.type = 'text';}"
                    onfocus="hintValue(this, 'password', 'focus', ''); this.type = 'password';"
                    style="color: grey;"
@@ -64,7 +64,7 @@
 </div>
 </body>
 
-<script>
+<script th:inline="javascript">
     function submit() {
         var determine = proofInput();
         if (determine) {
@@ -73,13 +73,8 @@
     }
 
     function proofInput() {
-        var inputName = document.getElementById('input-user-name').value;
         var inputEmail = document.getElementById('input-user-email').value;
         var inputPassword = document.getElementById('input-user-password').value;
-        if (inputName == 'your name') {
-            alert('you must input your name.');
-            return false;
-        }
         if (inputEmail == 'your email') {
             alert('you must input your email to identify as ID.');
             return false;

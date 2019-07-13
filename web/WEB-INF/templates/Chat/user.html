@@ -8,6 +8,8 @@
 <body>
 <th:block th:replace="~{layout :: top-panel}"/>
 
+<th:block th:replace="~{layout :: left-panel(user=${user})}"/>
+
 <div id="content-area">
     <div class="user-description" style="background-color: rgba(190, 245, 180, 1);">
         <p class="user-id" th:text="${user.name}"

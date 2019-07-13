@@ -43,7 +43,7 @@ public class UserService {
             User user = new User();
             user.setEmail(email);
             user.setName(userName);
-            user.setPassword(password);
+            user.setUserPassword(password);
             userMapper.insertUser(user);
 
             openSession.commit();
@@ -60,12 +60,15 @@ public class UserService {
 
     public static User match(String email, String password) throws IOException, UserException {
         SqlSession openSession = null;
-        User matchUser;
+        User matchUser = null;
         try {
             openSession = openSession();
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
             matchUser = userMapper.identifyUserWithEmailPassword(new User(email, password));
+        } catch (SQLException e) {
+            System.out.println("MySQL error Code is " + e.getErrorCode());
+            e.printStackTrace();
         } finally {
             if (openSession != null) openSession.close();
         }

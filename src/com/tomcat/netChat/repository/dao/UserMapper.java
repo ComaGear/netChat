@@ -12,7 +12,7 @@ public interface UserMapper {
 
     User getUserByEmail(String email);
 
-    User identifyUserWithEmailPassword(User user);
+    User identifyUserWithEmailPassword(User user) throws SQLException;
 
     boolean insertUser(User user) throws SQLException;
 

@@ -6,11 +6,11 @@ public class User {
     public static final String TEMPLATE_VARIABLE_COLLECTION = "userList";
 
     public static final String NAME = "userName";
-    public static final String PASSWORD = "password";
+    public static final String PASSWORD = "userPassword";
     public static final String EMAIL = "userEmail";
 
     private String email;
-    private String password;
+    private String userPassword;
     private String name;
     private String comment;
 
@@ -38,17 +38,17 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
     public User(String email, String password) {
         this.email = email;
-        this.password = password;
+        this.userPassword = password;
     }
 
     public User(String email) {
