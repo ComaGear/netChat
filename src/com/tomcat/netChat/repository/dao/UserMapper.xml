@@ -21,10 +21,11 @@
         where email = #{email}
     </select>
 
-    <select id="identifyUserWithEmailPassword" resultMap="user">
+    <select id="identifyUserWithEmailPassword" resultMap="user" parameterType="com.tomcat.netChat.javaBeans.User">
 
         <include refid="aliasColumnUser"/>
-        where email = #{email} and userPassword = ${userPassword}
+        from user
+        where email = #{email} and userPassword = #{userPassword}
     </select>
 
     <insert id="insertUser" parameterType="com.tomcat.netChat.javaBeans.User">

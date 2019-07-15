@@ -8,6 +8,7 @@ import com.tomcat.netChat.javaBeans.GroupChat;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -27,7 +28,7 @@ public class ChatService {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
             group = groupChatMapper.getGroupByAll();
-            if (group == null || group.get(0) == null) {
+            if (group == null || group.size() <= 0) {
                 throw new ChatException(ChatException.NOT_EXISTED_GROUPS_CODE);
             } else {
                 return group;
@@ -112,15 +113,16 @@ public class ChatService {
             openSession = openSession();
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            List<Chat> chats = chatMapper.getChatByAll(id.intValue());
+            List<Chat> chats = chatMapper.getChatByAll(id);
+            if (chats == null || chats.size() == 0) throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
 
             return chats;
-        } catch (SQLException sqlE) {
-            int errorCode = sqlE.getErrorCode();
-            if (errorCode == 1146) {
-                throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
-            } else {
-                sqlE.printStackTrace();
+        } catch (PersistenceException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                if (((SQLException) cause).getErrorCode() == 1146) {
+                    throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
+                }
             }
         } finally {
             if (openSession != null) openSession.close();

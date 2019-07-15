@@ -15,7 +15,7 @@ public interface ChatMapper {
 
     List<Chat> getChatByNew(@Param("groupChatId") int groupChatId, @Param("obtainAmount") int obtainAmount) throws SQLException;
 
-    List<Chat> getChatByAll(@Param("groupChatId") int groupChatId) throws SQLException;
+    List<Chat> getChatByAll(@Param("groupChatId") int groupChatId);
 
     int insertChat(@Param("groupChatId") int groupChatId, @Param("chat") Chat chat) throws SQLException;
 
