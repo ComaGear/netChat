@@ -30,7 +30,7 @@
         </ul>
     </div>
 
-    <div id="left-navigation-panel" style="width:15%;" th:fragment="left-panel(user)">
+    <div id="left-navigation-panel" style="width:15%; z-index: 2;" th:fragment="left-panel(user)">
         <div id="user-detail" style="background-color: rgb(4, 10, 8); position: relative; width: 100%; height: 8em;">
             <p class="user-detail-component" style="margin: 8px 0 0 8px; font-size: 1.5em;" th:text="${user.name}">user
                 name</p>
@@ -39,8 +39,8 @@
             <p class="user-detail-component" style="margin: 8px 0 0 8px;" th:text="${user.comment}">user comment</p>
         </div>
 
-        <a class="button-hyperlink">chats</a>
-        <a class="button-hyperlink">user</a>
+        <a class="button-hyperlink" th:href="@{/group}" href="/group">chats</a>
+        <a class="button-hyperlink" th:href="@{/userPreview}" href="/userPreview">user</a>
         <a class="button-hyperlink">function</a>
     </div>
 
@@ -54,11 +54,11 @@
             var left_panel = document.getElementById('left-navigation-panel');
             var top_panel = document.getElementById('top-navigation-panel');
             if (leftPanelState) {
-                left_panel.style = 'width: 0';
+                left_panel.style = 'width: 0; z-index: -1';
                 top_panel.style = 'left: 0; width: 100%';
                 leftPanelState = false;
             } else {
-                left_panel.style = 'width: 15%';
+                left_panel.style = 'width: 15%; z-index: 2;';
                 top_panel.style = 'left: 15%; width: 85%;';
                 leftPanelState = true;
             }

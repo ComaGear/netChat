@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface UserMapper {
 
-    boolean initializeUserTable() throws SQLException;
+    boolean initializeUserTable();
 
     User getUserByEmail(String email);
 
-    User identifyUserWithEmailPassword(User user) throws SQLException;
+    User identifyUserWithEmailPassword(User user);
 
-    boolean insertUser(User user) throws SQLException;
+    boolean insertUser(User user);
 
     int updateUser(User user);
 

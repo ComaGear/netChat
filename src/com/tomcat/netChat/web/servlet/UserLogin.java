@@ -39,7 +39,7 @@ public class UserLogin extends HttpServlet {
         try {
             UserService.match(email, password);
         } catch (UserException e) {
-            if (e.getEID() == UserException.LOGIN_EXCEPTION_CODE) {
+            if (e.getEID() == UserException.NOT_EXIST_EXCEPTION_CODE) {
                 templateEngine.process("exception", webContext, resp.getWriter());
             } else {
                 e.printStackTrace();

@@ -4,6 +4,7 @@ import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.ChatMapper;
 import com.tomcat.netChat.repository.dao.GroupChatMapper;
 import com.tomcat.netChat.repository.dao.UserMapper;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -23,7 +24,7 @@ public class NetChatApplication {
     public static final String TEMPLATE_ENGINE = "TemplateEngine";
     public static final String REPOSITORY_RESOURCE = "com/tomcat/netChat/repository/resources/mybatis-config.xml";
 
-    public NetChatApplication(final ServletContext servletContext){
+    public NetChatApplication(final ServletContext servletContext) {
         super();
 
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -39,23 +40,21 @@ public class NetChatApplication {
 
         try {
             SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(NetChatApplication.REPOSITORY_RESOURCE));
-            SqlSession openSession = factory.openSession();
-            UserMapper userMapper = openSession.getMapper(UserMapper.class);
-            GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
-            ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
+            try (SqlSession openSession = factory.openSession()) {
+                UserMapper userMapper = openSession.getMapper(UserMapper.class);
+                GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
-            try {
                 userMapper.initializeUserTable();
                 groupChatMapper.initializeGroup();
-            } catch (SQLException e) {
+
+                openSession.commit();
+            } catch (PersistenceException e) {
                 e.printStackTrace();
             }
-
-            openSession.commit();
-            openSession.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public TemplateEngine getTemplateEngine(){

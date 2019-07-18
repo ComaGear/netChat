@@ -45,7 +45,7 @@
                 comment = #{comment},
             </if>
         </trim>
-        where email = #{email}
+        where email = #{email} and userPassword = #{userPassword}
     </update>
 
     <delete id="deleteUserByEmail">

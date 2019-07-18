@@ -23,6 +23,9 @@ public class UserPreview extends HttpServlet {
     public static final String RELATIVE_PATH = "/userPreview";
     public static final String REPRESENT_RESOURCE_PATH = "Chat/user";
 
+    public static final String NO_PARAMETERS_IDENTIFICATION = "CmGr2844747235";
+    public static final String NO_PARAMETERS_IDENTIFICATION1 = "your password must input when you modify your information";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TemplateEngine templateEngine = (TemplateEngine) getServletContext().getAttribute(NetChatApplication.TEMPLATE_ENGINE);
@@ -35,9 +38,11 @@ public class UserPreview extends HttpServlet {
             if (email == null) {
                 user = SessionService.identifyUserFromCookie(req, resp);
                 groupChatsByUser = ChatService.recordByUser(user.getEmail());
+                webContext.setVariable("self", true);
             } else {
                 user = UserService.search(email);
                 groupChatsByUser = ChatService.recordByUser(email);
+                webContext.setVariable("self", false);
             }
 
             webContext.setVariable(User.TEMPLATE_VARIABLE, user);
@@ -52,5 +57,34 @@ public class UserPreview extends HttpServlet {
             return;
         }
         templateEngine.process(REPRESENT_RESOURCE_PATH, webContext, resp.getWriter());
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String userName = null;
+        String password = null;
+        String comment = null;
+        String userEmail = req.getParameter(User.EMAIL);
+
+        if (req.getParameter(User.NAME) != null && !req.getParameter(User.NAME).equals(NO_PARAMETERS_IDENTIFICATION))
+            userName = req.getParameter(User.NAME);
+        if (req.getParameter(User.COMMENT) != null && !req.getParameter(User.COMMENT).equals(NO_PARAMETERS_IDENTIFICATION))
+            comment = req.getParameter(User.COMMENT);
+        if (req.getParameter(User.PASSWORD) != null && !req.getParameter(User.PASSWORD).equals(NO_PARAMETERS_IDENTIFICATION1)) {
+            password = req.getParameter(User.PASSWORD);
+        } else resp.sendRedirect(req.getContextPath() + GroupPreview.RELATIVE_PATH);
+
+        try {
+            User user = new User(userEmail);
+            if (userEmail != null) user.setName(userName);
+            if (comment != null) user.setComment(comment);
+            user.setUserPassword(password);
+            UserService.update(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        resp.sendRedirect(req.getContextPath() + req.getServletPath());
     }
 }

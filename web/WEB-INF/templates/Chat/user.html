@@ -4,6 +4,105 @@
     <meta charset="UTF-8">
     <title th:text="${user.name}">User Name</title>
     <th:block th:replace="~{layout :: link}"/>
+
+    <style>
+        #user-description td {
+            width: 50%;
+        }
+
+        #user-description .name-row {
+            padding: 0.3em 8px;
+        }
+
+        #user-description .email-row {
+            padding: 2px 8px;
+        }
+
+        #user-description .comment-row {
+            padding: 0.3em 8px;
+        }
+
+        #user-description button {
+            width: 10%;
+            padding: 4px 1em;
+            border: 1px solid lightgreen;
+            background-color: rgba(240, 240, 240, 0.7);
+        }
+
+        #user-description button:focus {
+            outline: none;
+        }
+
+        #user-description input, textarea {
+            width: 80%;
+            padding: 4px;
+        }
+
+        #user-description input:focus, textarea:focus {
+            padding: 5px;
+            border: 1px solid grey;
+            border-bottom: 1px solid green;
+            outline: none;
+        }
+
+        #password-edit {
+            width: 70%;
+            padding: 4px 8px;
+            margin: 4px;
+        }
+
+
+        #chatList {
+            border-collapse: collapse;
+            border: 1px solid gray;
+            margin: 3px;
+            display: block;
+        }
+
+        #chatList .individual-chats {
+            margin: 0.5em;
+            background-color: #f9db77;
+            border: 1px solid #e0c060;
+            height: 5em;
+            position: relative;
+        }
+
+        #chatList .chats-id {
+            font-size: 0.7em;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        #chatList .chats-name {
+            font-size: 1.1em;
+            position: absolute;
+            top: 3px;
+            left: 4em;
+        }
+
+        #chatList .chats-date {
+            font-size: 0.8em;
+            position: absolute;
+            top: 3px;
+            right: 1em;
+        }
+
+        #chatList .chats-detail {
+            font-size: 0.9em;
+            position: absolute;
+            top: 2em;
+            left: 1em;
+        }
+
+        #chatList .chats-creator {
+            font-size: 0.9em;
+            position: absolute;
+            right: 1em;
+            bottom: 1em;
+        }
+    </style>
 </head>
 <body>
 <th:block th:replace="~{layout :: top-panel}"/>
@@ -11,21 +110,109 @@
 <th:block th:replace="~{layout :: left-panel(user=${user})}"/>
 
 <div id="content-area">
-    <div class="user-description" style="background-color: rgba(190, 245, 180, 1);">
-        <p class="user-id" th:text="${user.name}"
-           style="background-color: rgba(220, 255, 190, 1); padding: 0.5em 0 0 0.3em; margin: 0; font-size: 1.5em;">Coma
-            Gear</p>
-        <p class="user-name" th:text="${user.email}"
-           style="background-color: rgba(220, 255, 190, 1); padding: 0.3em 0.5em; margin: 0; color: rgba(0, 0, 0, 0.7); font: 1.3em monospace;">
-            coma.gear921@gmail.com</p>
-        <p class="user-comment" th:text="${user.comment}" style="padding: 0.3em; margin: 0;">Basic Comment</p>
-    </div>
+    <table id="user-description" style="width: 100%; border-collapse: collapse;">
+        <form action="/userPreview" th:action="@{/userPreview}" method="post" target="_self">
+            <tr style="background-color: rgba(220, 255, 190, 1); font-size: 1.5em;">
+                <td th:text="${user.name}" class="name-row">Coma Gear</td>
+                <td class="name-row">
+                    <input id="name-edit" value="CmGr2844747235" style="display: none;" state="not-display"
+                           name="userName" class="edit-input"
+                           th:if="${self}">
+                    <button type="button" onclick="change('name-edit')" th:if="${self}">edit</button>
+                </td>
+            </tr>
+            <tr style="background-color: rgba(220, 255, 190, 1); color: rgba(0, 0, 0, 0.7); font: 1.3em monospace;">
+                <td th:text="${user.email}" class="email-row">coma.gear921@gmail.com</td>
+                <td class="email-row">
+                    <input id="email-edit" value="CmGr2844747235" th:value="${user.email}" style="display: none;"
+                           state="not-display" name="userEmail" class="edit-input" th:if="${self}">
+                    <!--                    <button type="button" onclick="change('email-edit')" th:if="${self}">edit</button>-->
+                </td>
+            </tr>
+            <tr style="background-color: rgba(190, 245, 180, 1)">
+                <td th:text="${user.comment}" class="comment-row">comment</td>
+                <td class="comment-row">
+                    <textarea id="comment-edit" value="CmGr2844747235" style="display: none;" state="not-display"
+                              name="userComment" class="edit-input" th:if="${self}">CmGr2844747235</textarea>
+                    <button type="button" onclick="change('comment-edit')" th:if="${self}">edit</button>
+                </td>
+            </tr>
+            <div style="position: fixed; bottom: 0; left: 33%; width: 33%; height: 50px; background-color: rgba(0, 0, 0, 0.3); "
+                 th:if="${self}">
+                <input type="text" value="your password must input when you modify your information" id="password-edit"
+                       style="color: grey;" name="userPassword"
+                       onblur="hintValue(this, '', 'blur', 'your password must input when you modify your information'); if(this.value == 'your password must input when you modify your information') {this.type = 'text';}"
+                       onfocus="hintValue(this, 'your password must input when you modify your information', 'focus', ''); this.type = 'password';">
+                <button type="submit" style="padding: 4px 8px; background-color: white; border: 1px solid lightgreen;">
+                    submit
+                </button>
+            </div>
+        </form>
+    </table>
 
     <div id="chatList">
-        <div class="individual-chats" th:each="group : ${chats}">
-
+        <div class="individual-chats" th:each="group : ${groupChatList}">
+            <span class="chats-id" th:text="*{group.id}">
+                1
+            </span>
+            <a class="chats-name" th:text="*{group.groupName}" th:href="@{/chat(groupId=*{group.id})}">
+                Basic Group Name
+            </a>
+            <span class="chats-detail" th:text="*{group.detail}">
+                Basic Group Detail
+            </span>
+            <span class="chats-date" th:text="*{#dates.format(group.date, 'dd/MMM/yyyy HH:mm')}">
+            1990/01/01
+            </span>
+            <a class="chats-creator" th:text="*{group.creator.name}"
+               th:href="@{/userPreview(userEmail=${group.creator.email})}">
+                User Id
+            </a>
         </div>
     </div>
 </div>
+
+<script>
+    var STYLE_DISPLAY = 'display: inline;';
+    var STYLE_NOT_DISPLAY = 'display: none;';
+    var DISPLAY = 'display';
+    var NOT_DISPLAY = 'not-display';
+
+    function change(changed) {
+        var elementById = document.getElementById(changed);
+        if (elementById.getAttribute('state') == NOT_DISPLAY) {
+            elementById.setAttribute('style', STYLE_DISPLAY);
+            elementById.setAttribute('state', DISPLAY);
+            elementById.value = '';
+            var nameByElement = elementById.getAttribute('name');
+            changeProperty(nameByElement, DISPLAY);
+        } else if (elementById.getAttribute('state') == DISPLAY) {
+            elementById.setAttribute('style', STYLE_NOT_DISPLAY);
+            elementById.setAttribute('state', NOT_DISPLAY);
+            elementById.value = 'CmGr2844747235';
+        }
+    }
+
+    function hintValue(element, value, state, replace) {
+        if (element.value == value) {
+            switch (state) {
+                case 'focus' : {
+                    element.style = 'color: black;';
+                    element.value = replace;
+                    break;
+                }
+                case 'blur' : {
+                    element.style = 'color: gray;';
+                    element.value = replace;
+                    break;
+                }
+                default : {
+                    element.style = 'color: black';
+                    break;
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>

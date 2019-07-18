@@ -21,27 +21,21 @@ import java.util.List;
 public class ChatService {
 
     public static List<GroupChat> allRecordDescription() throws IOException, ChatException {
-        SqlSession openSession = null;
-        List<GroupChat> group;
-        try {
-            openSession = openSession();
+        List<GroupChat> group = null;
+        try (SqlSession openSession = openSession()) {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
             group = groupChatMapper.getGroupByAll();
-            if (group == null || group.size() <= 0) {
-                throw new ChatException(ChatException.NOT_EXISTED_GROUPS_CODE);
-            } else {
-                return group;
-            }
-        } finally {
-            if (openSession != null) openSession.close();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
         }
+        if (group == null || group.size() <= 0)
+            throw new ChatException(ChatException.NOT_EXISTED_GROUPS_CODE);
+        return group;
     }
 
     public static Integer createRecord(String groupName, String detail, User creator) throws IOException, UserException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        try (SqlSession openSession = openSession()) {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
@@ -51,131 +45,109 @@ public class ChatService {
 
             openSession.commit();
             return groupChat.getId();
-        } catch (SQLException sqlE) {
-            int errorCode = sqlE.getErrorCode();
-            if (errorCode == 1452) {
-                throw new UserException(UserException.NOT_EXIST_EXCEPTION_CODE);
-            } else {
-                sqlE.printStackTrace();
-            }
-        } finally {
-            if (openSession != null) openSession.close();
+        } catch (PersistenceException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                if (((SQLException) cause).getErrorCode() == 1452) {
+                    throw new UserException(UserException.NOT_EXIST_EXCEPTION_CODE);
+                } else cause.printStackTrace();
+            } else e.printStackTrace();
         }
         return -1;
     }
 
-    public static GroupChat recordDescription(Integer id) throws IOException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+    public static GroupChat recordDescription(Integer id) throws IOException, ChatException {
+        GroupChat groupById = null;
+        try (SqlSession openSession = openSession()) {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
-            GroupChat groupById = groupChatMapper.getGroupById(id);
-
-            return groupById;
-        } finally {
-            if (openSession != null) openSession.close();
+            groupById = groupChatMapper.getGroupById(id);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
         }
+
+        if (groupById == null) throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
+        return groupById;
     }
 
     public static List<GroupChat> recordByUser(String email) throws IOException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        try (SqlSession openSession = openSession()) {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
-            List<GroupChat> groupByUser = groupChatMapper.getGroupByUserEmail(email);
-
-            return groupByUser;
-        } finally {
-            if (openSession != null) openSession.close();
+            return groupChatMapper.getGroupByUserEmail(email);
         }
     }
 
     public static boolean deleteRecord(Integer id) throws IOException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        try (SqlSession openSession = openSession()) {
             GroupChatMapper groupChatMapper = openSession.getMapper(GroupChatMapper.class);
 
             int i = groupChatMapper.deleteGroupById(id);
 
             openSession.commit();
             return i > 0;
-        } finally {
-            if (openSession != null) openSession.close();
         }
     }
 
     public static List<Chat> allChatInRecord(Integer id) throws IOException, ChatException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        List<Chat> chats = null;
+        try (SqlSession openSession = openSession()) {
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            List<Chat> chats = chatMapper.getChatByAll(id);
-            if (chats == null || chats.size() == 0) throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
-
-            return chats;
+            chats = chatMapper.getChatByAll(id);
         } catch (PersistenceException e) {
             final Throwable cause = e.getCause();
             if (cause instanceof SQLException) {
                 if (((SQLException) cause).getErrorCode() == 1146) {
                     throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
-                }
-            }
-        } finally {
-            if (openSession != null) openSession.close();
+                } else cause.printStackTrace();
+            } else e.printStackTrace();
         }
-        return null;
+
+        if (chats == null || chats.size() == 0) throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
+        return chats;
     }
 
     public static boolean recordingChat(String message, Integer groupId, User sender) throws IOException, ChatException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        int i = 0;
+        try (SqlSession openSession = openSession()) {
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            int i = chatMapper.insertChat(groupId, new Chat(sender, message));
+            i = chatMapper.insertChat(groupId, new Chat(sender, message));
 
             openSession.commit();
-            return i > 0;
-        } catch (SQLException sqlE) {
-            int errorCode = sqlE.getErrorCode();
-            if (errorCode == 1452) {
-                throw new ChatException(ChatException.CHAT_INSERT_EXCEPTION_CODE);
-            } else if (errorCode == 1146) {
-                throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
-            } else {
-                sqlE.printStackTrace();
-            }
-        } finally {
-            openSession.close();
+
+        } catch (PersistenceException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                if (((SQLException) cause).getErrorCode() == 1146) {
+                    throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
+                } else if (((SQLException) cause).getErrorCode() == 1452) {
+                    throw new ChatException(ChatException.CHAT_INSERT_EXCEPTION_CODE);
+                } else cause.printStackTrace();
+            } else e.printStackTrace();
         }
-        return false;
+        return i > 0;
     }
 
     public static boolean deleteChat(Integer groupId, Integer id) throws IOException, ChatException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        int i = 0;
+        try (SqlSession openSession = openSession()) {
             ChatMapper chatMapper = openSession.getMapper(ChatMapper.class);
 
-            int i = chatMapper.deleteChat(new GroupChat(groupId), new Chat(id));
+            i = chatMapper.deleteChat(new GroupChat(groupId), new Chat(id));
 
             openSession.commit();
-            return i > 0;
-        } catch (SQLException sqlE) {
-            int errorCode = sqlE.getErrorCode();
-            if (errorCode == 1146) {
-                throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
-            } else {
-                sqlE.printStackTrace();
-            }
-        } finally {
-            if (openSession != null) openSession.close();
+
+        } catch (PersistenceException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                if (((SQLException) cause).getErrorCode() == 1146) {
+                    throw new ChatException(ChatException.NOT_EXIST_GROUP_CODE);
+                } else cause.printStackTrace();
+            } else e.printStackTrace();
         }
-        return false;
+        return i > 0;
     }
 
     private static SqlSession openSession() throws IOException {

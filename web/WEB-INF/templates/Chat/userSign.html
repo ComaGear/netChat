@@ -40,14 +40,12 @@
                    onfocus="hintValue(this, 'your name', 'focus', '');"
                    style="color: grey;"
                    value="your name">
-            <br/>
             <input class="center text shadow margin-top" id="input-user-email" name="userEmail"
                    onblur="hintValue(this, '', 'blur', 'your email');"
                    onfocus="hintValue(this, 'your email', 'focus', '');"
                    style="color: grey;"
                    type="email"
                    value="your email">
-            <br/>
             <input class="center text shadow margin-top" id="input-user-password" name="userPassword"
                    onblur="hintValue(this, '', 'blur', 'password'); if(this.value == '') {this.type = 'text';}"
                    onfocus="hintValue(this, 'password', 'focus', ''); this.type = 'password';"
@@ -56,7 +54,9 @@
                    value="password">
         </div>
     </form>
-    <a class="corner-space" th:href="@{/login}">have been registered an account? just login now.</a>
+    <a class="corner-space" th:href="@{/login}" th:unless="${isLogin}">have been registered an account? just login
+        now.</a>
+    <a class="corner-space" th:href="@{/join}" th:if="${isLogin}">have not registered an account? just join now.</a>
     <div class="footer">
         <input class="button" name="submit" onclick="submit()" style="width:100%; border-radius: 0 0 12px 12px;"
                type="submit">

@@ -8,6 +8,7 @@ public class User {
     public static final String NAME = "userName";
     public static final String PASSWORD = "userPassword";
     public static final String EMAIL = "userEmail";
+    public static final String COMMENT = "userComment";
 
     private String email;
     private String userPassword;

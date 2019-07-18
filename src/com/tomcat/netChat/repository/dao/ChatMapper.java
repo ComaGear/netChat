@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface ChatMapper {
 
-    void initializeChat(GroupChat groupChat) throws SQLException;
+    void initializeChat(GroupChat groupChat);
 
-    List<Chat> getChatByNew(@Param("groupChatId") int groupChatId, @Param("obtainAmount") int obtainAmount) throws SQLException;
+    List<Chat> getChatByNew(@Param("groupChatId") int groupChatId, @Param("obtainAmount") int obtainAmount);
 
     List<Chat> getChatByAll(@Param("groupChatId") int groupChatId);
 
-    int insertChat(@Param("groupChatId") int groupChatId, @Param("chat") Chat chat) throws SQLException;
+    int insertChat(@Param("groupChatId") int groupChatId, @Param("chat") Chat chat);
 
-    int deleteChat(@Param("groupChatId") GroupChat groupChatId, @Param("allChatInRecord") Chat chat) throws SQLException;
+    int deleteChat(@Param("groupChatId") GroupChat groupChatId, @Param("allChatInRecord") Chat chat);
 }

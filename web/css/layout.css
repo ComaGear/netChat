@@ -62,7 +62,6 @@ body {
 }
 
 * {
-    font-size: 1em;
     font-family: sans-serif;
 }
 
@@ -128,7 +127,6 @@ input.button {
     transition: 500ms;
     position: fixed;
     top: 0;
-    z-index: -1;
 }
 
 #left-navigation-panel * {

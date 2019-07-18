@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface GroupChatMapper {
 
-    void initializeGroup() throws SQLException;
+    void initializeGroup();
 
-    int insertGroup(GroupChat group) throws SQLException;
+    int insertGroup(GroupChat group);
 
     int updateGroup(GroupChat group);
 

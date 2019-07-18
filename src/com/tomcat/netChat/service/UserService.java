@@ -4,6 +4,7 @@ import com.tomcat.netChat.NetChatApplication;
 import com.tomcat.netChat.exception.UserException;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.UserMapper;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -15,29 +16,18 @@ import java.sql.SQLException;
 public class UserService {
 
     public static User search(String email) throws IOException, UserException {
-        SqlSession openSession = null;
         User user;
-        try {
-            openSession = openSession();
+        try (SqlSession openSession = openSession()) {
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
             user = userMapper.getUserByEmail(email);
-
-        } finally {
-            openSession.close();
         }
-
-        if (user == null) {
-            throw new UserException(UserException.NOT_EXIST_EXCEPTION_CODE);
-        } else {
-            return user;
-        }
+        if (user == null) throw new UserException(UserException.NOT_EXIST_EXCEPTION_CODE);
+        return user;
     }
 
-    public static boolean join(String email, String password, String userName) throws IOException, UserException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+    public static void join(String email, String password, String userName) throws IOException, UserException {
+        try (SqlSession openSession = openSession()) {
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
             User user = new User();
@@ -47,70 +37,55 @@ public class UserService {
             userMapper.insertUser(user);
 
             openSession.commit();
-            return true;
-        } catch (SQLException sqlE) {
-            int errorCode = sqlE.getErrorCode();
-            if (errorCode == 1062) throw new UserException(UserException.JOIN_EXCEPTION_CODE);
-
-        } finally {
-            if (openSession != null) openSession.close();
+        } catch (PersistenceException e) {
+            final Throwable cause = e.getCause();
+            if (cause instanceof SQLException) {
+                if (((SQLException) cause).getErrorCode() == 1062) {
+                    throw new UserException(UserException.JOIN_EXCEPTION_CODE);
+                } else cause.printStackTrace();
+            } else e.printStackTrace();
         }
-        return false;
     }
 
     public static User match(String email, String password) throws IOException, UserException {
-        SqlSession openSession = null;
         User matchUser = null;
-        try {
-            openSession = openSession();
+        try (SqlSession openSession = openSession()) {
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
             matchUser = userMapper.identifyUserWithEmailPassword(new User(email, password));
-        } catch (SQLException e) {
-            System.out.println("MySQL error Code is " + e.getErrorCode());
+        } catch (PersistenceException e) {
             e.printStackTrace();
-        } finally {
-            if (openSession != null) openSession.close();
         }
-
-        if (matchUser == null) {
-            throw new UserException(UserException.LOGIN_EXCEPTION_CODE);
-        } else {
-            return matchUser;
-        }
+        if (matchUser == null) throw new UserException(UserException.NOT_EXIST_EXCEPTION_CODE);
+        return matchUser;
     }
 
-    public static boolean update(User user) {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+    public static boolean update(User user) throws IOException {
+        int i = 0;
+        try (SqlSession openSession = openSession()) {
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
-            int i = userMapper.updateUser(user);
+            i = userMapper.updateUser(user);
 
             openSession.commit();
-            return i != 0;
-        } catch (IOException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
-        } finally {
-            if (openSession != null) openSession.close();
         }
-        return false;
+        return i > 0;
     }
 
     public static boolean delete(String email) throws IOException {
-        SqlSession openSession = null;
-        try {
-            openSession = openSession();
+        int i = 0;
+        try (SqlSession openSession = openSession()) {
             UserMapper userMapper = openSession.getMapper(UserMapper.class);
 
-            int b = userMapper.deleteUserByEmail(email);
+            i = userMapper.deleteUserByEmail(email);
 
             openSession.commit();
-            return b != 0;
-        } finally {
-            if (openSession != null) openSession.close();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
         }
+        return i > 0;
     }
 
     private static SqlSession openSession() throws IOException {

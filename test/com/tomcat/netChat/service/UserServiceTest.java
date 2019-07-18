@@ -4,6 +4,7 @@ import com.tomcat.netChat.NetChatApplication;
 import com.tomcat.netChat.exception.UserException;
 import com.tomcat.netChat.javaBeans.User;
 import com.tomcat.netChat.repository.dao.UserMapper;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 @RunWith(JUnit4.class)
 public class UserServiceTest {
@@ -32,7 +32,7 @@ public class UserServiceTest {
             mapper.initializeUserTable();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (PersistenceException e) {
             e.printStackTrace();
         }
 
